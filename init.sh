@@ -18,8 +18,8 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	echo "."
 	echo "Updating APT-GET libraries and installed packages"
 	echo "---------------------------------------------------------------------------------"
-	sudo apt-get -y update
-	sudo apt-get -y upgrade
+	sudo apt-get -y update 					# Update library
+	sudo apt-get -y upgrade 				# Upgrade all local libraries
 fi
 
 #####################################################################################
@@ -35,8 +35,22 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	echo "."
 	echo "Setting US locale and keyboard"
 	echo "---------------------------------------------------------------------------------"
-	sudo cp -f files/locale.gen /etc/locale.gen
-	sudo cp -f files/keyboard /etc/default/keyboard
+	sudo cp -f files/locale.gen /etc/locale.gen 		# Set locale to US
+	sudo cp -f files/keyboard /etc/default/keyboard		# Set keyboard layout to US
 fi
 
+#####################################################################################
+## Setting User Environment
+#####################################################################################
 
+echo -n "Setting user environment ('y' for yes) ? "
+read -n 1 q
+echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	echo "."
+	echo "."
+	echo "."
+	echo "Setting up user environment"
+	echo "---------------------------------------------------------------------------------"
+	sudo cp -f files/.bashrc ~							# Set bash environment
+fi
