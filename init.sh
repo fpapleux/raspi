@@ -7,7 +7,7 @@ echo "Refresh apt-get from library ('y' for yes) ? "
 read -n 1 q
 if [ "$q" == "y" || "$q" == "Y" ]; then
 	scripts/update-system.sh
-q = ""
+fi
 
 
 
