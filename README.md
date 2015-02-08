@@ -8,9 +8,8 @@ Feel free to download the content of this repo to your raspberry pi and run init
 
 2. Type:
 ```
-	mkdir raspi
-	cd raspi
-	git init
 	git clone https://github.com/fpapleux/raspi
+	cd raspi
+	sudo ./init.sh
 ```
 
