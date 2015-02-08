@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Initializing new raspberry pi... -- Make sure the raspberry pi is connected to the Internet..."
 echo "."
 echo "."
@@ -5,7 +7,7 @@ echo "."
 
 echo "Refresh apt-get from library ('y' for yes) ? "
 read -n 1 q
-if [ $q == "y" || $q == "Y" ]; then
+if [ ("$q" == 'y') || ("$q" == 'Y') ]; then
 	echo "."
 	echo "."
 	echo "."
