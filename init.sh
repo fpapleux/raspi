@@ -7,7 +7,7 @@ echo "."
 
 echo "Refresh apt-get from library ('y' for yes) ? "
 read -n 1 q
-if [ ("$q" == 'y') || ("$q" == 'Y') ]; then
+if [ ($q == 'y') || ($q == 'Y') ]; then
 	echo "."
 	echo "."
 	echo "."
