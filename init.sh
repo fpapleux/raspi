@@ -15,6 +15,6 @@ echo "."
 echo "."
 echo "Setting US Keyboard"
 echo "---------------------------------------------------------------------------------"
-sudo setxkbmap us
+sudo cp -f files/keyboard /etc/default/keyboard
 
 
