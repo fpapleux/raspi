@@ -6,9 +6,14 @@ echo "."
 echo "Refresh apt-get from library ('y' for yes) ? "
 read -n 1 q
 if [ "$q" == "y" || "$q" == "Y" ]; then
-	scripts/update-system.sh
+	echo "."
+	echo "."
+	echo "."
+	echo "Updating APT-GET libraries and installed packages"
+	echo "---------------------------------------------------------------------------------"
+	sudo apt-get -y update
+	sudo apt-get -y upgrade
 fi
-
 
 
 echo "."
