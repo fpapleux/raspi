@@ -11,8 +11,8 @@ echo "."
 
 echo -n "Refresh apt-get from library ('y' for yes) ? "
 read -n 1 q
+echo $q
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo "."
 	echo "."
 	echo "."
 	echo "."
@@ -28,14 +28,15 @@ fi
 
 echo -n "Set US Keyboard ('y' for yes) ? "
 read -n 1 q
+echo $q
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	echo "."
-echo "."
-echo "."
-echo "."
-echo "Setting US Keyboard"
-echo "---------------------------------------------------------------------------------"
-sudo cp -f files/keyboard /etc/default/keyboard
-
+	echo "."
+	echo "."
+	echo "."
+	echo "Setting US Keyboard"
+	echo "---------------------------------------------------------------------------------"
+	sudo cp -f files/keyboard /etc/default/keyboard
+fi
 
 
