@@ -11,7 +11,7 @@ echo "."
 
 echo -n "Refresh apt-get from library ('y' for yes) ? "
 read -n 1 q
-echo $q
+echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	echo "."
 	echo "."
@@ -28,9 +28,8 @@ fi
 
 echo -n "Set US Keyboard ('y' for yes) ? "
 read -n 1 q
-echo $q
+echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo "."
 	echo "."
 	echo "."
 	echo "."
