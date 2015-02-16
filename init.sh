@@ -25,7 +25,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	sudo apt-get -y install build-essential				# Essentials compilers, etc.
 	sudo apt-get -y install wireless-tools				# drivers for wifi
 	sudo apt-get -y install wpasupplicant				# Other command for wifi drivers
-	read -n 4 wlan_exist << ifconfig -a | grep -i wlan
+	read -n 4 wlan_exist | ifconfig -a | grep -i wlan
 	if [ "$wlan_exist" == ""]; then
 		echo "---------------------------------------------------------------------------------"
 		echo "Your wireless adapter hasn't been detected. You may need to reboot before it"
@@ -33,7 +33,6 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
 		read -n 1 q; echo
 	fi
-	read -n 5 wlan_exist << ifconfig -a | grep -i wlan
 fi
 
 
