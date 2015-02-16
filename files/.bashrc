@@ -1,33 +1,117 @@
-# My prompt
-PS1="\n💻  \033[38;5;255m\033[48;5;33m  \d \t  \033[38;5;255m\033[48;5;0m @ \w \033[38;5;46m\033[48;5;0m\n\u $ "
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
-# My Aliases
-alias ll='ls -lp'
-alias la='ls -lap'
-alias c='clear'
-alias cd..='cd ..'
-alias countlines="find -L . -name '*.java' -exec cat {} + | wc"
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
 
-#My functions
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
 
-function findlinks() {
-	find -L /bin /sbin /usr /Library /System /var /Applications /etc -samefile "$@" -ls 2>>~/errors.log;
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  # We have color support; assume it's compliant with Ecma-48
+  # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+  # a case would tend to support setf rather than setaf.)
+  color_prompt=yes
+    else
+  color_prompt=
+    fi
+fi
+
+function prompt {
+	local FREESPACE=`df -h | grep /dev/root | awk '{print "used " $3 " free " $4}'`
+	local FREEMEM=`free -m | grep Mem: | awk '{print "used " $3 "M free " $4 "M"}'`
+	local ESC="\[\033"
+	local GREY_BLACK="$ESC[00;37;40m"
+	local WHITE_BLACK="$ESC[01;37;40m"
+	local WHITE_BLUE="$ESC[01;37;44m"
+	local WHITE_RED="$ESC[01;37;41m"
+	local RED_BLACK="$ESC[01;31;40m"
+	export PS1="\n$WHITE_BLUE  \d \t  $WHITE_BLACK @ \w\n$F_GREY\u $ "
 }
+prompt
 
-# My other shit
-# export JAVA_HOME="/Library/Java/Home"
-# export JRE_HOME=/Library/Java/Home/jre
-export CATALINA_HOME="/usr/local/tomcat7"
-export ANT_HOME=/usr/local/ant
+#if [ "$color_prompt" = yes ]; then
+#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
+#else
+#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#fi
+#unset color_prompt force_color_prompt
 
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
 
-##
-# Your previous /Users/fabien/.bash_profile file was backed up as /Users/fabien/.bash_profile.macports-saved_2013-11-09_at_22:54:45
-##
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-# MacPorts Installer addition on 2013-11-09_at_22:54:45: adding an appropriate PATH variable for use with MacPorts.
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
 
-export PATH=$PATH:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:usr/local/bin/node:/usr/local/bin/npm
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -lA'
+alias cd..='cd ..'
+#alias l='ls -CF'
 
-# Finished adapting your PATH environment variable for use with MacPorts.
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
