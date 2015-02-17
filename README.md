@@ -10,6 +10,6 @@ Feel free to download the content of this repo to your raspberry pi and run init
 ```
 	git clone https://github.com/fpapleux/raspi
 	cd raspi
-	sudo ./init.sh
+	sudo ./raspi.sh
 ```
 
