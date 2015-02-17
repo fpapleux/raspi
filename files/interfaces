@@ -1,0 +1,13 @@
+auto lo
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+allow-hotplug #INTERFACE
+iface #INTERFACE inet dhcp
+    wpa-ssid #SSID
+    wpa-psk #WPA
+auto #INTERFACE
+
+# wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+iface default inet dhcp
