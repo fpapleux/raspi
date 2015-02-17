@@ -4,7 +4,7 @@ echo "Initializing new raspberry pi... -- Make sure the raspberry pi is connecte
 echo "."
 echo "."
 echo "."
-
+reboot=0
 
 
 
@@ -58,9 +58,9 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo "Setting up wireless networking"
 		echo "---------------------------------------------------------------------------------"
 		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" > ./interfaces
-		exit
+		sudo mv -f ./interfaces /etc/network/
+		reboot=1
 	fi
-
 fi
 
 
@@ -117,7 +117,7 @@ fi
 
 
 #####################################################################################
-## Setting Toole & Development Environment
+## Setting Tools & Development Environment
 #####################################################################################
 
 echo -n "Install Node.js ('y' for yes) ? "
@@ -131,5 +131,21 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	sudo apt-get install -y curl
 	sudo curl -sL https://deb.nodesource.com/setup | bash -
 	sudo apt-get install -y nodejs
+fi
+
+
+
+
+
+#####################################################################################
+## Determine whether need to reboot or not
+#####################################################################################
+if [ $reboot == 1 ]; then
+		echo "---------------------------------------------------------------------------------"
+		echo "Based on the setup we have just executed, you need to reboot the machine for"
+		echo "the changes to take effect. We will reboot now."
+		echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
+		read -n 1 q; echo
+		sudo shutdown -r now
 fi
 
