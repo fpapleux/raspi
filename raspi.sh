@@ -25,14 +25,6 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	sudo apt-get -y install build-essential				# Essentials compilers, etc.
 	sudo apt-get -y install wireless-tools				# drivers for wifi
 	sudo apt-get -y install wpasupplicant				# Other command for wifi drivers
-	read -n 4 wlan_exist | ifconfig -a | grep -i wlan
-	if [ "$wlan_exist" == ""]; then
-		echo "---------------------------------------------------------------------------------"
-		echo "Your wireless adapter hasn't been detected. You may need to reboot before it"
-		echo "can be configured by this script."
-		echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
-		read -n 1 q; echo
-	fi
 fi
 
 
@@ -48,28 +40,27 @@ fi
 echo -n "Set up wireless adapter ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo -n "Enter your SSID: "
-	read ssid; echo
-	echo -n "Enter your WPA key: "
-	read wpa; echo
-	echo "."
-	echo "."
-	echo "."
-	echo "Setting up wireless networking"
-	echo "---------------------------------------------------------------------------------"
-
-	read -n 4 wlan_exist << ifconfig -a | grep -i wlan
-	if [ "$wlan_exist" == ""]; then
+	interface="$(ifconfig -a | grep -i wlan | cut -c1-5)"
+	if [ "$interface" == ""]; then
 		echo "---------------------------------------------------------------------------------"
 		echo "Your wireless adapter hasn't been detected. You may need to reboot before it"
 		echo "can be configured by this script."
 		echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
 		read -n 1 q; echo
 	else
-		# Assuming wlan0 is the network adapter to use
-
+		echo -n "Enter your SSID: "
+		read ssid; echo
+		echo -n "Enter your WPA key: "
+		read wpa; echo
+		echo "."
+		echo "."
+		echo "."
+		echo "Setting up wireless networking"
+		echo "---------------------------------------------------------------------------------"
+		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" ./interfaces
+		exit
 	fi
-	read -n 5 wlan_exist << ifconfig -a | grep -i wlan
+
 fi
 
 
