@@ -41,7 +41,7 @@ echo -n "Set up wireless adapter ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	interface="$(ifconfig -a | grep -i wlan | cut -c1-5)"
-	if [ "$interface" == ""]; then
+	if [ "$interface" == "" ]; then
 		echo "---------------------------------------------------------------------------------"
 		echo "Your wireless adapter hasn't been detected. You may need to reboot before it"
 		echo "can be configured by this script."
@@ -57,7 +57,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo "."
 		echo "Setting up wireless networking"
 		echo "---------------------------------------------------------------------------------"
-		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" ./interfaces
+		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" > ./interfaces
 		exit
 	fi
 
