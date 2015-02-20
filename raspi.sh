@@ -93,7 +93,7 @@ while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
 		if [ "$user" != "" ]; then
 			echo -en "\n\nAdding new user... "
 			# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
-			echo -e "$password\n$password\n\n\n\n\ny\n" > ./userinfo	# Creating user
+			echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
 			sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
 			rm ./userinfo
 			sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
