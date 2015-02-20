@@ -80,7 +80,7 @@ fi
 ## SETTING UP USER ENVIRONMENT
 #####################################################################################
 
-# Manage users
+# Add users
 
 q="y"
 while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
@@ -102,6 +102,21 @@ while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
 	fi	
 done
 
+# Delete users
+
+q="y"
+while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
+	echo -n "Need to delete any users ('y' for yes) ? "
+	read -n 1 q; echo
+	if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+		echo -n "Enter username: "; read user
+		if [ "$user" != "" ]; then
+			echo -en "\n\nRemoving user $user... "
+			sudo deluser "$user" --remove-home 
+			echo -e "done\n\n"
+		fi
+	fi	
+done
 
 
 
