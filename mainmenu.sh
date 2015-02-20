@@ -1,7 +1,7 @@
 #!/bin/bash
 
 choice="*"
-while [ $choice != 0 ]; do
+while [ "$choice" != "0" ]; do
 
 	clear
 	echo -e "\n\n"
