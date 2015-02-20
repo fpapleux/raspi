@@ -92,8 +92,8 @@ while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
 		echo -n "Enter password: "; read password
 		if [ "$user" != "" ]; then
 			echo -en "\n\nAdding new user... "
-			cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
-			sudo adduser --home /home/"$user" "$user" | echo -e "$password\n$password\n\n\n\n\ny\n"	# Creating user
+			# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
+			sudo adduser --home /home/"$user" "$user" < "$password\n$password\n\n\n\n\ny\n"	# Creating user
 			sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
 			sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
 			# Use deluser USER to remove users (deluser --group GROUP for groups)
