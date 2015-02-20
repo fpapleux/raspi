@@ -13,10 +13,7 @@ reboot=0
 echo -n "Refresh system and apt-get from library ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo -en "\n\nUpdating APT-GET libraries and installed packages... "
-	sudo apt-get -y update 								# Update library
-	sudo apt-get -y upgrade 							# Upgrade all local libraries
-	echo -e "done\n\n"
+	scripts/system.update.sh
 fi
 
 
