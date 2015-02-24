@@ -9,7 +9,7 @@ echo -e "\n\n\nWhen done, reboot and log in using your new user account before c
 ## GATHERING USER INPUT
 #####################################################################################
 
-setupWifi = 0
+setupWifi=0
 echo -n "Set up wireless adapter ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
