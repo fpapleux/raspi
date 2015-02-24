@@ -2,7 +2,7 @@
 # Raspberry Pi Repository
 #
 
-Feel free to download the content of this repo to your raspberry pi and run init.sh to initialize it with the default settings that I use.
+Feel free to download the content of this repo to initialize your raspberry pi's.
 
 1. Make sure your raspberry pi is connected to the internet.
 
