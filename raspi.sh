@@ -1,13 +1,39 @@
 #!/bin/bash
 
-echo "Running full install of your raspberry pi"
-echo -e "\n\n\n"
-
 clear
 echo -e "#####################################################################################"
 echo -e "## RASPBERRY PI SETUP SYSTEM"
 echo -e "#####################################################################################"
+echo -e "\n\n\n"
 
+#####################################################################################
+## Protect the Pi user from being exploited
+#####################################################################################
+
+echo "It is highly recommended to remove the Pi user from the system for security."
+echo -n "Delete Pi user from the system ('y' for yes) ? "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	echo -e "\n\nDeleting Pi user... "
+	sudo deluser --remove-home pi	
+	echo -e "\n\nPi user deleted\n\n"
+fi
+
+#####################################################################################
+## Change the root password
+#####################################################################################
+
+echo -n "change the root password for added security ('y' for yes) ? "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	set cont = "n"
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter new root password: "; read rootpwd
+		echo -n "New password ok [y/n]? "; read -n 1 cont; echo
+		if [ "$cont" == "" ]; then cont = "n"; fi
+	done
+	echo "root:$rootpwd" | sudo chpasswd
+fi
 
 #####################################################################################
 ## SETTING UP WIRELESS NETWORKING
@@ -33,89 +59,32 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -en "\n\nSetting up wireless networking... "
 		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" > ./interfaces
 		sudo mv -f ./interfaces /etc/network/
-		echo -e "done\n\n"
+		echo -e "\n\nDone\n\n"
 	fi
 fi
-
-
-
-
-#####################################################################################
-## SETTING UP USER ENVIRONMENT
-#####################################################################################
-
-# Add users
-
-q="y"
-while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
-	echo -n "Need to add a new admin user ('y' for yes) ? "
-	read -n 1 q; echo
-	if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-		echo -n "Enter username: "; read user
-		echo -n "Enter full name: "; read userFullName
-		echo -n "Enter password: "; read password
-		if [ "$user" != "" ]; then
-			echo -en "\n\nAdding new user... "
-			# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
-			echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
-			sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
-			rm ./userinfo
-			sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
-			sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
-			# Use deluser USER to remove users (deluser --group GROUP for groups)
-			echo -e "done\n\n"
-		fi
-	fi	
-done
-
-# Delete users
-
-q="y"
-while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
-	echo -n "Need to delete any users ('y' for yes) ? "
-	read -n 1 q; echo
-	if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-		echo -n "Enter username: "; read user
-		if [ "$user" != "" ]; then
-			echo -en "\n\nRemoving user $user... "
-			sudo deluser "$user" --remove-home 
-			echo -e "done\n\n"
-		fi
-	fi	
-done
-
-
-
-
 
 #####################################################################################
 ## Setting Tools & Development Environment
 #####################################################################################
 
-# 1. Install git
+# 1. Setting up git
 
-echo -n "Install git ('y' for yes) ? "
+echo -n "Want to configure git ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo -en "\n\ninstalling git... "
-	sudo apt-get -y install git-core
 	echo -n "Enter system username to setup: "; read user
 	echo -n "Enter git user.name: "; read gitUser
 	echo -n "Enter git user.email: "; read gitEmail
-	sudo echo -e "[core]\n    editor = nano\n" > /home/"$user"/.gitconfig
-	sudo echo -e "[user]\n    name = $gitUser\n" >> /home/"$user"/.gitconfig
-	sudo echo -e "    email = $gitEmail\n" >> /home/"$user"/.gitconfig
-	echo -e "done\n\n"
+	echo -e "\n\nSetting up git... "
+	sudo echo -e "[core]\n    editor = nano\n" > ~/.gitconfig
+	sudo echo -e "[user]\n    name = $gitUser\n" >> ~/.gitconfig
+	sudo echo -e "    email = $gitEmail\n" >> ~/.gitconfig
+	echo -e "\n\nDone\n\n"
 fi
 
+# 2. Install node.js
 
-
-	# sudo apt-get -y install build-essential			# Essentials compilers, etc. 
-														# --> ONLY USE with large SD Card
-
-## INCOMPLETE
-
-echo -n "Install Node.js ('y' for yes) ? "
+echo -n "Install node.js ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	echo "."
@@ -123,7 +92,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	echo "."
 	echo "Setting up Node.js"
 	echo "---------------------------------------------------------------------------------"
-	sudo apt-get install -y curl
+	sudo apt-get -y install -y curl
 	sudo curl -sL https://deb.nodesource.com/setup | bash -
 	sudo apt-get install -y nodejs
 fi
