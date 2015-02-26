@@ -13,8 +13,8 @@ set setupWifi = 0
 echo -n "Set up wireless adapter ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	setupWifi = 1
-	cont = "n"
+	set setupWifi = 1
+	set cont = "n"
 	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 		echo -n "Enter your SSID: "; read ssid
 		echo -n "Enter your WPA key: "; read wpa
@@ -23,7 +23,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 fi
 
 echo -e "\nSetting up primary user...\n"
-cont = "n"
+set cont = "n"
 while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 	echo -n "Enter username: "; read user
 	echo -n "Enter full name: "; read userFullName
@@ -92,59 +92,21 @@ if [ "$user" != "" ]; then
 	echo -e "\n\nUser environment setup complete\n\n"
 fi
 
-# Delete users
-
-q="y"
-while [ "$q" == "y" ] || [ "$q" == "Y" ]; do
-	echo -n "Need to delete any users ('y' for yes) ? "
-	read -n 1 q; echo
-	if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-		echo -n "Enter username: "; read user
-		if [ "$user" != "" ]; then
-			echo -en "\n\nRemoving user $user... "
-			sudo deluser "$user" --remove-home 
-			echo -e "done\n\n"
-		fi
-	fi	
-done
-
-
-
-
 
 #####################################################################################
-## Setting Tools & Development Environment
+## Protect the Pi user from being exploited
 #####################################################################################
-
-# 1. Install git
-
-echo -n "Install git ('y' for yes) ? "
-read -n 1 q; echo
-if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo -en "\n\ninstalling git... "
-	sudo apt-get -y install git-core
-	echo -n "Enter system username to setup: "; read user
-	echo -n "Enter git user.name: "; read gitUser
-	echo -n "Enter git user.email: "; read gitEmail
-	sudo echo -e "[core]\n    editor = nano\n" > /home/"$user"/.gitconfig
-	sudo echo -e "[user]\n    name = $gitUser\n" >> /home/"$user"/.gitconfig
-	sudo echo -e "    email = $gitEmail\n" >> /home/"$user"/.gitconfig
-	echo -e "done\n\n"
-fi
-
-
+# @TODO
 
 
 
 #####################################################################################
 ## Determine whether need to reboot or not
 #####################################################################################
-if [ $reboot == 1 ]; then
-		echo "---------------------------------------------------------------------------------"
-		echo "Based on the setup we have just executed, you need to reboot the machine for"
-		echo "the changes to take effect. We will reboot now."
-		echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
-		read -n 1 q; echo
-		sudo shutdown -r now
-fi
+echo "---------------------------------------------------------------------------------"
+echo "Based on the work that was just completed we recommend that you restart your"
+echo "machine and log back in using your new user account to continue this process."
+echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
+read -n 1 q; echo
+sudo shutdown -r now
 
