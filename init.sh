@@ -29,7 +29,7 @@ while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 	echo -n "Enter full name: "; read userFullName
 	echo -n "Enter password: "; read password
 	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-	if [ "$user" == "" ]; then cont = "n"
+	if [ "$user" == "" ]; then cont = "n"; fi
 done
 
 #####################################################################################
