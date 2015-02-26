@@ -37,8 +37,8 @@ done
 #####################################################################################
 
 echo -e "\n\nUpdating APT-GET libraries and installed packages... "
-sudo apt-get -y update 								# Update library
-sudo apt-get -y upgrade 							# Upgrade all local libraries
+sudo apt-get -y -qq update 							# Update library
+sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
 echo -e "\n\nAPT-GET update complete\n\n"
 
 #####################################################################################
@@ -80,15 +80,25 @@ fi
 #####################################################################################
 
 if [ "$user" != "" ]; then
-	echo -en "\n\nAdding new user... "
+	echo -en "\n\nCreating new user... "
 	# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
 	echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
 	sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
 	rm ./userinfo
+
+	# Configuring user environment
 	sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
 	sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
+
+	# Setting up sudo rights
+	echo "$user   ALL=(NOPASSWD:ALL)   ALL" > ./user"$user"
+	chmod 440 ./user"$user"
+	sudo mv -f ./user"$user" /etc/sudoers.d
+	
+	# Setting up raspi in new user's environment to enable next steps
 	cd /home/"$user"
 	sudo git clone https://github.com/fpapleux/raspi
+
 	echo -e "\n\nUser environment setup complete\n\n"
 fi
 

@@ -1,27 +1,12 @@
 #!/bin/bash
 
-echo "Initializing new raspberry pi... -- Make sure the raspberry pi is connected to the Internet..."
+echo "Running full install of your raspberry pi"
 echo -e "\n\n\n"
-reboot=0
 
-
-
-#####################################################################################
-## RERESH SYSTEM WITH APT-GET LIBRARY UPDATE & UPGRADE
-#####################################################################################
-
-echo -n "Refresh system and apt-get from library ('y' for yes) ? "
-read -n 1 q; echo
-if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo -en "\n\nUpdating APT-GET libraries and installed packages... "
-	sudo apt-get -y update 								# Update library
-	sudo apt-get -y upgrade 							# Upgrade all local libraries
-	echo -e "\n\ndone\n\n"
-fi
-
-
-
-
+clear
+echo -e "#####################################################################################"
+echo -e "## RASPBERRY PI SETUP SYSTEM"
+echo -e "#####################################################################################"
 
 
 #####################################################################################
@@ -48,30 +33,9 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -en "\n\nSetting up wireless networking... "
 		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" > ./interfaces
 		sudo mv -f ./interfaces /etc/network/
-		reboot=1
 		echo -e "done\n\n"
 	fi
 fi
-
-
-
-
-
-
-#####################################################################################
-## ADJUSTING SYSTEM SETTINGS
-#####################################################################################
-
-echo -n "Set US locale and keyboard ('y' for yes) ? "
-read -n 1 q; echo
-if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	echo -en "\n\nSetting US locale and keyboard... "
-	sudo cp -f files/locale.gen /etc/locale.gen 		# Set locale to US
-	sudo cp -f files/keyboard /etc/default/keyboard		# Set keyboard layout to US
-	echo -e "done\n\n"
-fi
-
-
 
 
 
