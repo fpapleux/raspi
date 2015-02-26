@@ -1,10 +1,18 @@
 #!/bin/bash
 
 clear
-echo "Initializing new RaspberryPi"
-echo "Make sure it is connected to the Internet..."
+echo -e "#####################################################################################"
+echo -e "## Initializing new RaspberryPi"
+echo -e "#####################################################################################"
+echo -e "\nMake sure it is connected to the Internet..."
 echo -e "\nWhen done, reboot and log in using your new user account before continuing.\n\n"
 
+#####################################################################################
+## Configuring pi user environment 
+#####################################################################################
+
+sudo cp -f files/.bashrc ~					# Set bash environment
+sudo cp -f files/.nanorc ~					# Set bash environment
 
 #####################################################################################
 ## GATHERING USER INPUT
@@ -83,18 +91,20 @@ fi
 if [ "$user" != "" ]; then
 	echo -en "\n\nCreating new user... "
 	# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
-	echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
-	sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
-	rm ./userinfo
+	# echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
+	# sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
+	# rm ./userinfo
+	sudo adduser "$user" --gecos "$userFullName, , , " --disabled-password
+	echo "$user:$password" | sudo chpasswd
 
 	# Configuring user environment
 	sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
 	sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
 
 	# Setting up sudo rights
-	echo -e "$user\tALL=NOPASSWD:\tALL" > ./user"$user"
-	chmod 440 ./user"$user"
-	sudo mv -f ./user"$user" /etc/sudoers.d
+	echo -e "$user\tALL=NOPASSWD:\tALL" > ./"$user"
+	chmod 440 ./"$user"
+	sudo mv -f ./"$user" /etc/sudoers.d
 	
 	# Setting up raspi in new user's environment to enable next steps
 	cd /home/"$user"
