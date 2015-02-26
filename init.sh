@@ -1,8 +1,9 @@
 #!/bin/bash
-# NOT TESTED
 
-echo "Initializing new raspberry pi... -- Make sure the raspberry pi is connected to the Internet..."
-echo -e "\n\n\nWhen done, reboot and log in using your new user account before continuing.\n\n"
+clear
+echo "Initializing new RaspberryPi"
+echo "Make sure it is connected to the Internet..."
+echo -e "\nWhen done, reboot and log in using your new user account before continuing.\n\n"
 
 
 #####################################################################################
