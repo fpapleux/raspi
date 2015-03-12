@@ -31,8 +31,10 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	done
 fi
 
+echo "current value of cont variable is $cont"
 echo -e "\nSetting up primary user...\n"
 set cont = "n"
+echo "current value of cont variable is $cont"
 while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 	echo -n "Enter username: "; read user
 	echo -n "Enter full name: "; read userFullName
@@ -112,12 +114,6 @@ if [ "$user" != "" ]; then
 
 	echo -e "\n\nUser environment setup complete\n\n"
 fi
-
-
-#####################################################################################
-## Protect the Pi user from being exploited
-#####################################################################################
-# @TODO
 
 
 
