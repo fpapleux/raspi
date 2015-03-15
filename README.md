@@ -22,7 +22,7 @@ Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. 
 
 7. Write the image onto the card: ``` sudo dd bs=1m if=<Raspbian image filename>.img of=/dev/rdisk1 ``` (note that rdisk1 refers to your disk1s1) This operation may take a while.
 
-8. Before removing the card, type <b>``` sudo diskutil eject /dev/rdisk1 ```</b>
+8. Before removing the card, type ``` sudo diskutil eject /dev/rdisk1 ```
 
 <h3>Step 2: Run your Raspberry Pi for the first time</h3>
 
