@@ -8,8 +8,6 @@ I created this system to accelerate provisioning a Raspberry Pi from scratch, wh
 
 Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. I haven't tested this on any other system. If you are using a different system and you would like to add to this, please let me know and I'll be glad to make room for your contribution.
 
-I'm also going to use commands assuming a directory structure similar to what I use. Obviously feel free to use a different one.
-
 1. Dowload the latest Raspbian build ZIP file from http://www.raspberrypi.org/downloads/
 
 2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi_os. You should CD into that directory.
