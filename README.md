@@ -12,7 +12,7 @@ I'm also going to use commands assuming a directory structure similar to what I 
 
 1. Dowload the latest Raspbian build ZIP file from http://www.raspberrypi.org/downloads/
 
-2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi/os. You should CD into that directory.
+2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi_os. You should CD into that directory.
 
 3. Unzip the raspbian image.
 ``` unzip ~/Downloads/<Raspbian image filename>.zip * ./ ```
