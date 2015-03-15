@@ -34,9 +34,9 @@ In order to run the next steps, please make sure your raspberry pi is connected 
 
 2. Install this system by cloning this repository. It is done by typing the following commands:
 ```
-	cd ~
-	git clone https://github.com/fpapleux/raspi
-	cd raspi
+ cd ~
+ git clone https://github.com/fpapleux/raspi
+ cd raspi
 ```
 
 3. Execute ``` sudo ./init.sh ``` to go through the initialization process.
