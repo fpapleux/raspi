@@ -14,7 +14,8 @@ I'm also going to use commands assuming a directory structure similar to what I 
 
 2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi_os. You should CD into that directory.
 
-3. Unzip the raspbian image: ``` unzip ~/Downloads/<Raspbian image filename>.zip * ./ ```
+3. Unzip the raspbian image: ``` unzip ~/Downloads/<Raspbian image filename>.zip ./ ``` and remove the zip file from your Downloads: ``` rm -f <Raspbian image filename>.zip ```
+
 
 
 1 - Make sure your raspberry pi is connected to the internet.  For me it's as simple as plugging an ethernet cable. The process takes you through configuring a wireless adapter (I am always using the EDIMAX EW7811, which is a tiny 802.11n USB adapter).
