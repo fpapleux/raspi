@@ -4,7 +4,7 @@
 
 I created this system to accelerate provisioning a Raspberry Pi from scratch, which is something I do on a regular basis, at least every time I start a new project. I hope you find this useful.
 
-<h3>Step 1: Load Raspbian onto a Micro SD card<h3>
+<h3>Step 1: Load Raspbian onto a Micro SD card</h3>
 
 Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. I haven't tested this on any other system. If you are using a different system and you would like to add to this, please let me know and I'll be glad to make room for your contribution.
 
