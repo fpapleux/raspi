@@ -33,11 +33,10 @@ In order to run the next steps, please make sure your raspberry pi is connected 
 1. Start your Raspberry Pi. It will boot automatically into the configuration tool, raspi-config. It's a good tool but it's insufficient for our use so just exit.
 
 2. Install this system by cloning this repository. It is done by typing the following commands:
-```
- cd ~
- git clone https://github.com/fpapleux/raspi
- cd raspi
-```
+	```
+	cd ~
+	git clone https://github.com/fpapleux/raspi
+	cd raspi ```
 
 3. Execute ``` sudo ./init.sh ``` to go through the initialization process.
 
