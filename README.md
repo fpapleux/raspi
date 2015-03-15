@@ -4,27 +4,9 @@
 
 I created this system to accelerate provisioning a Raspberry Pi from scratch, which is something I do on a regular basis, at least every time I start a new project. I hope you find this useful.
 
-<h3>Step 1: Load Raspbian onto a Micro SD card</h3>
+<i>I am in the process of moving the contents of this documentation into the wiki because it is getting too big to just stand in a README file. Links are provided below for the sections already documented.</i>
 
-Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. I haven't tested this on any other system. If you are using a different system and you would like to add to this, please let me know and I'll be glad to make room for your contribution.
-
-1. Dowload the latest Raspbian build ZIP file from http://www.raspberrypi.org/downloads/
-
-2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi_os. You should CD into that directory.
-
-3. Unzip the raspbian image: ``` unzip ~/Downloads/<Raspbian image filename>.zip ./ ``` and remove the zip file from your Downloads: ``` rm -f ~/Downloads/<Raspbian image filename>.zip ```. Verify the presence of the image file in your current directory. it should be ``` <Raspbian image filename>.img ```
-
-4. BEFORE you insert the SD Card, type ``` df -h ``` to list the mounted file systems. By doing this, you will be able to see which one is the SD Card.
-
-5. Insert the SD Card into your Mac, wait a few seconds, and type ``` df -h ``` again. Compare the entries to see what device is your SD Card. Mine shows up as ``` /dev/disk1s1 ``` but it could be /dev/disk2s1 when my backup drive is connected. It's important to know that it's not necessarily always the same path.
-
-6. Unmount the disk that you know is the SD Card: ``` sudo diskutil unmount /dev/disk1s1 ```
-
-7. Write the image onto the card: ``` sudo dd bs=1m if=<Raspbian image filename>.img of=/dev/rdisk1 ``` (note that rdisk1 refers to your disk1s1) This operation may take a while.
-
-8. Before removing the card, type ``` sudo diskutil eject /dev/rdisk1 ```
-
-That's it. Remove the SD Card from your computer and load it into your Raspberry Pi. It is ready for first boot. Move on to the next section.
+The first step I normally go through is to grab the latest Raspbian distribution and [load it onto an SD card](https://github.com/fpapleux/raspi/wiki/Step-1:-Loading-Raspbian-onto-an-SD-Card) to get started.
 
 <h3>Step 2: Run your Raspberry Pi for the first time</h3>
 
