@@ -24,6 +24,8 @@ Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. 
 
 8. Before removing the card, type ``` sudo diskutil eject /dev/rdisk1 ```
 
+That's it. Remove the SD Card from your computer and load it into your Raspberry Pi. It is ready for first boot. Move on to the next section.
+
 <h3>Step 2: Run your Raspberry Pi for the first time</h3>
 
 1 - Make sure your raspberry pi is connected to the internet.  For me it's as simple as plugging an ethernet cable. The process takes you through configuring a wireless adapter (I am always using the EDIMAX EW7811, which is a tiny 802.11n USB adapter).
