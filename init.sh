@@ -1,22 +1,23 @@
 #!/bin/bash
 
-clear
-echo -e "#####################################################################################"
-echo -e "## Initializing new RaspberryPi"
-echo -e "#####################################################################################"
+clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+echo -e "-------------------------------------------------------------------------------------"
+echo -e "| Initializing new RaspberryPi                                                      |"
+echo -e "-------------------------------------------------------------------------------------"
 echo -e "\nMake sure it is connected to the Internet..."
 echo -e "\nWhen done, reboot and log in using your new user account before continuing.\n\n"
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
-#####################################################################################
-## Configuring pi user environment 
-#####################################################################################
 
-sudo cp -f files/.bashrc ~					# Set bash environment
-sudo cp -f files/.nanorc ~					# Set bash environment
+
 
 #####################################################################################
 ## GATHERING USER INPUT
 #####################################################################################
+
+clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+echo -e " Gathering all user input"
+echo -e "-------------------------------------------------------------------------------------"
 
 set setupWifi = 0
 echo -n "Set up wireless adapter ('y' for yes) ? "
@@ -30,36 +31,69 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Wifi information ok [y/n]? "; read -n 1 cont; echo
 	done
 fi
+echo -e "\n\n"
 
-echo "current value of cont variable is $cont"
-echo -e "\nSetting up primary user...\n"
-set cont = "n"
-echo "current value of cont variable is $cont"
-while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
-	echo -n "Enter username: "; read user
-	echo -n "Enter full name: "; read userFullName
-	echo -n "Enter password: "; read password
-	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-	if [ "$user" == "" ]; then cont = "n"; fi
-done
+set setupPrimaryUser = 0
+echo -e "Set up new primary user ('y' for yes - HIGHLY RECOMMENDED) ? "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	set setupPrimaryUser = 1
+	set cont = "n"
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter username: "; read user
+		echo -n "Enter full name: "; read userFullName
+		echo -n "Enter password: "; read password
+		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
+		if [ "$user" == "" ]; then set cont = "n"; fi
+	done
+fi
+
+
+
+
+
+#####################################################################################
+## Configuring pi user environment 
+#####################################################################################
+
+sudo cp -f files/.bashrc ~					# Set bash environment
+sudo chown pi:pi .bashrc
+sudo cp -f files/.nanorc ~					# Set bash environment
+sudo chown pi:pi .nanorc
+
+
+
+
 
 #####################################################################################
 ## RERESH SYSTEM WITH APT-GET LIBRARY UPDATE & UPGRADE
 #####################################################################################
 
-echo -e "\n\nUpdating APT-GET libraries and installed packages... "
+clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+echo -e " Updating APT-GET libraries and installed packages..."
+echo -e "-------------------------------------------------------------------------------------"
 sudo apt-get -y -qq update 							# Update library
 sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
 echo -e "\n\nAPT-GET update complete\n\n"
+
+
+
+
 
 #####################################################################################
 ## ADJUSTING SYSTEM SETTINGS
 #####################################################################################
 
-echo -en "\n\nSetting US locale and keyboard... "
+clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+echo -e " Setting US locale and keyboard..."
+echo -e "-------------------------------------------------------------------------------------"
 sudo cp -f files/locale.gen /etc/locale.gen 		# Set locale to US
 sudo cp -f files/keyboard /etc/default/keyboard		# Set keyboard layout to US
 echo -e "\n\nUS Locale & Keyboard setup complete\n\n"
+
+
+
+
 
 #####################################################################################
 ## SETTING UP WIRELESS NETWORKING
@@ -67,6 +101,10 @@ echo -e "\n\nUS Locale & Keyboard setup complete\n\n"
 
 if [ "$setupWifi" == "1" ]; then
 
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Setting up wireless networking..."
+	echo -e "-------------------------------------------------------------------------------------"
+	
 	sudo apt-get -y install wireless-tools				# drivers for wifi
 	sudo apt-get -y install wpasupplicant				# Other command for wifi drivers
 
@@ -78,7 +116,6 @@ if [ "$setupWifi" == "1" ]; then
 		echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
 		read -n 1 q; echo
 	else
-		echo -e "\n\nSetting up wireless networking... "
 		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" > ./interfaces
 		sudo mv -f ./interfaces /etc/network/
 		echo -e "\n\nWireless Networking setup complete\n\n"
@@ -86,34 +123,49 @@ if [ "$setupWifi" == "1" ]; then
 
 fi
 
+
+
+
+
 #####################################################################################
 ## SETTING UP USER ENVIRONMENT
 #####################################################################################
 
-if [ "$user" != "" ]; then
-	echo -en "\n\nCreating new user... "
-	# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
-	# echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
-	# sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
-	# rm ./userinfo
-	sudo adduser "$user" --gecos "$userFullName, , , " --disabled-password
-	echo "$user:$password" | sudo chpasswd
+if [ "$setupPrimaryUser" == "1" ]; then
 
-	# Configuring user environment
-	sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
-	sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
-
-	# Setting up sudo rights
-	echo -e "$user ALL=(ALL) NOPASSWD: ALL" > ./"$user"
-	chmod 440 ./"$user"
-	sudo mv -f ./"$user" /etc/sudoers.d
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Setting up new primary user..."
+	echo -e "-------------------------------------------------------------------------------------"
 	
-	# Setting up raspi in new user's environment to enable next steps
-	cd /home/"$user"
-	sudo git clone https://github.com/fpapleux/raspi
+	if [ "$user" != "" ]; then
+		echo -en "\n\nCreating new user... "
+		# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
+		# echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
+		# sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
+		# rm ./userinfo
+		sudo adduser "$user" --gecos "$userFullName, , , " --disabled-password
+		echo "$user:$password" | sudo chpasswd
 
-	echo -e "\n\nUser environment setup complete\n\n"
+		# Configuring user environment
+		sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
+		sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
+
+		# Setting up sudo rights
+		echo -e "$user ALL=(ALL) NOPASSWD: ALL" > ./"$user"
+		chmod 440 ./"$user"
+		sudo mv -f ./"$user" /etc/sudoers.d
+		
+		# Setting up raspi in new user's environment to enable next steps
+		cd /home/"$user"
+		sudo git clone https://github.com/fpapleux/raspi 		# clone git repo into new user home
+		sudo chown -R "$user":"$user" *									# change owner of repo files to new user
+
+		echo -e "\n\nUser environment setup complete\n\n"
+	fi
+
 fi
+
+
 
 
 
