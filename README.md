@@ -12,7 +12,7 @@ Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. 
 
 2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi_os. You should CD into that directory.
 
-3. Unzip the raspbian image: ``` unzip ~/Downloads/<Raspbian image filename>.zip ./ ``` and remove the zip file from your Downloads: ``` rm -f <Raspbian image filename>.zip ```
+3. Unzip the raspbian image: ``` unzip ~/Downloads/<Raspbian image filename>.zip ./ ``` and remove the zip file from your Downloads: ``` rm -f ~/Downloads/<Raspbian image filename>.zip ```
 
 
 
