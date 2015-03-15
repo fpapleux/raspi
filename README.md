@@ -12,9 +12,19 @@ Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. 
 
 2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi_os. You should CD into that directory.
 
-3. Unzip the raspbian image: ``` unzip ~/Downloads/<Raspbian image filename>.zip ./ ``` and remove the zip file from your Downloads: ``` rm -f ~/Downloads/<Raspbian image filename>.zip ```
+3. Unzip the raspbian image: ``` unzip ~/Downloads/<Raspbian image filename>.zip ./ ``` and remove the zip file from your Downloads: ``` rm -f ~/Downloads/<Raspbian image filename>.zip ```. Verify the presence of the image file in your current directory. it should be ``` <Raspbian image filename>.img ```
 
+4. BEFORE you insert the SD Card, type ``` df -h ``` to list the mounted file systems. By doing this, you will be able to see which one is the SD Card.
 
+5. Insert the SD Card into your Mac, wait a few seconds, and type ``` df -h ``` again. Compare the entries to see what device is your SD Card. Mine shows up as ``` /dev/disk1s1 ``` but it could be /dev/disk2s1 when my backup drive is connected. It's important to know that it's not necessarily always the same path.
+
+6. Unmount the disk that you know is the SD Card: ``` sudo diskutil unmount /dev/disk1s1 ```
+
+7. Write the image onto the card: ``` sudo dd bs=1m if=<Raspbian image filename>.img of=/dev/rdisk1 ``` (note that rdisk1 refers to your disk1s1) This operation may take a while.
+
+8. Mac OS X will automatically detect the valid partition upon completion and remount it. You should see it appear on your desktop. Before removing the card, type ``` sudo diskutil eject /dev/rdisk1 ```
+
+<h3>Step 2: Run your Raspberry Pi for the first time</h3>
 
 1 - Make sure your raspberry pi is connected to the internet.  For me it's as simple as plugging an ethernet cable. The process takes you through configuring a wireless adapter (I am always using the EDIMAX EW7811, which is a tiny 802.11n USB adapter).
 
@@ -50,3 +60,6 @@ After updating the system, the script will force you to restart the machine. Thi
 ```
 Just follow the script's instructions. It should be clear enough. If it isn't, drop me a note...
 
+<h3>Acknowledgments</h3>
+
+I need to thank whoever wrote Wheezy installation self-help guide at Instant Support Site for the valuable information (http://www.instantsupportsite.com). It has been extremely useful.
