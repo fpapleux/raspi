@@ -4,15 +4,19 @@
 
 I created this system to accelerate provisioning a Raspberry Pi from scratch, which is something I do on a regular basis, at least every time I start a new project. I hope you find this useful.
 
-<h3>Step 1: Load Raspbian onto an Micro SD card<h3>
+<h3>Step 1: Load Raspbian onto a Micro SD card<h3>
 
 Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. I haven't tested this on any other system. If you are using a different system and you would like to add to this, please let me know and I'll be glad to make room for your contribution.
 
+I'm also going to use commands assuming a directory structure similar to what I use. Obviously feel free to use a different one.
+
 1. Dowload the latest Raspbian build ZIP file from http://www.raspberrypi.org/downloads/
 
-2. Open your terminal (Found in Applications/Utilities) for the rest of the operations.
+2. Open your terminal (Found in Applications/Utilities) for the rest of the operations. I created a directory where my raspbian images live at ~/dev/raspi/os. You should CD into that directory.
 
-3. 
+3. Unzip the raspbian image.
+``` unzip ~/Downloads/<Raspbian image filename>.zip * ./ ```
+
 
 1 - Make sure your raspberry pi is connected to the internet.  For me it's as simple as plugging an ethernet cable. The process takes you through configuring a wireless adapter (I am always using the EDIMAX EW7811, which is a tiny 802.11n USB adapter).
 
