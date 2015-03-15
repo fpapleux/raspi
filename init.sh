@@ -104,7 +104,7 @@ if [ "$user" != "" ]; then
 	sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
 
 	# Setting up sudo rights
-	echo -e "$user\tALL=NOPASSWD:\tALL" > ./"$user"
+	echo -e "$user ALL=(ALL) NOPASSWD: ALL" > ./"$user"
 	chmod 440 ./"$user"
 	sudo mv -f ./"$user" /etc/sudoers.d
 	

@@ -2,7 +2,17 @@
 # Raspberry Pi Setup System
 #
 
-I created this system because as you start playing with raspberry pi's, you often find yourself refreshing the SD card with the latest raspbian build, at least whenever I start a new project, and then you have to re-build everything you spent so much time configuring during your last project. I thought there needed to be a better way to do this while at the same time not overdoing it. I hope you find this useful.
+I created this system to accelerate provisioning a Raspberry Pi from scratch, which is something I do on a regular basis, at least every time I start a new project. I hope you find this useful.
+
+<h2>Step 1: Load Raspbian onto an Micro SD card<h2>
+
+Note that these instructions work on my Macbook Pro running Mac OS X Mavericks. I haven't tested this on any other system. If you are using a different system and you would like to add to this, please let me know and I'll be glad to make room for your contribution.
+
+1. Dowload the latest Raspbian build ZIP file from http://www.raspberrypi.org/downloads/
+
+2. Open your terminal (Found in Applications/Utilities) for the rest of the operations.
+
+3. 
 
 1 - Make sure your raspberry pi is connected to the internet.  For me it's as simple as plugging an ethernet cable. The process takes you through configuring a wireless adapter (I am always using the EDIMAX EW7811, which is a tiny 802.11n USB adapter).
 
