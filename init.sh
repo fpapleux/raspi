@@ -20,12 +20,12 @@ clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 echo -e " Gathering all user input"
 echo -e "-------------------------------------------------------------------------------------"
 
-set setupWifi = 0
+setupWifi=0
 echo -n "Set up wireless adapter ('y' for yes) ? "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	set setupWifi = 1
-	set cont = "n"
+	setupWifi=1
+	cont="n"
 	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 		echo -n "Enter your SSID: "; read ssid
 		echo -n "Enter your WPA key: "; read wpa
@@ -33,16 +33,15 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	done
 fi
 
-set setupPrimaryUser = 0
-echo -e "\n\nNeed to set up a new primary user..."
-set setupPrimaryUser = 1
-set cont = "n"
+cont="n"
+setupPrimaryUser=1
+echo -e "\n\nLet's set up a new primary user..."
 while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 	echo -n "Enter username: "; read user
 	echo -n "Enter full name: "; read userFullName
 	echo -n "Enter password: "; read password
 	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-	if [ "$user" == "" ]; then set cont = "n"; fi
+	if [ "$user" == "" ]; then cont="n"; fi
 done
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
@@ -126,7 +125,6 @@ if [ "$setupPrimaryUser" == "1" ]; then
 	echo -e "-------------------------------------------------------------------------------------"
 	
 	if [ "$user" != "" ]; then
-		echo -en "\n\nCreating new user... "
 		# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
 		# echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
 		# sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
