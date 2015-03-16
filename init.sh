@@ -31,22 +31,18 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Wifi information ok [y/n]? "; read -n 1 cont; echo
 	done
 fi
-echo -e "\n\n"
 
 set setupPrimaryUser = 0
-echo -e "Set up new primary user ('y' for yes - HIGHLY RECOMMENDED) ? "
-read -n 1 q; echo
-if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	set setupPrimaryUser = 1
-	set cont = "n"
-	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
-		echo -n "Enter username: "; read user
-		echo -n "Enter full name: "; read userFullName
-		echo -n "Enter password: "; read password
-		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-		if [ "$user" == "" ]; then set cont = "n"; fi
-	done
-fi
+echo -e "\n\nNeed to set up a new primary user..."
+set setupPrimaryUser = 1
+set cont = "n"
+while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+	echo -n "Enter username: "; read user
+	echo -n "Enter full name: "; read userFullName
+	echo -n "Enter password: "; read password
+	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
+	if [ "$user" == "" ]; then set cont = "n"; fi
+done
 
 
 
@@ -149,6 +145,8 @@ if [ "$setupPrimaryUser" == "1" ]; then
 		# Configuring user environment
 		sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
 		sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
+		sudo chown "$user":"$user" /home/"$user"/.bashrc
+		sudo chown "$user":"$user" /home/"$user"/.nanorc
 
 		# Setting up sudo rights
 		echo -e "$user ALL=(ALL) NOPASSWD: ALL" > ./"$user"
