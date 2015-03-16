@@ -4,8 +4,9 @@ clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 echo -e "-------------------------------------------------------------------------------------"
 echo -e "| Initializing new RaspberryPi                                                      |"
 echo -e "-------------------------------------------------------------------------------------"
-echo -e "\nMake sure it is connected to the Internet..."
-echo -e "\nWhen done, reboot and log in using your new user account before continuing.\n\n"
+echo -e "\n- Make sure it is connected to the Internet..."
+echo -e "- The system will force you to create a new primary user for security. In the next step the Pi user will be deleted."
+echo -e "- When done you will be asked to reboot. After reboot, run ~/raspi/raspi.sh"
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
@@ -43,19 +44,7 @@ while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
 	if [ "$user" == "" ]; then set cont = "n"; fi
 done
-
-
-
-
-
-#####################################################################################
-## Configuring pi user environment 
-#####################################################################################
-
-sudo cp -f files/.bashrc ~					# Set bash environment
-sudo chown pi:pi .bashrc
-sudo cp -f files/.nanorc ~					# Set bash environment
-sudo chown pi:pi .nanorc
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -71,6 +60,7 @@ echo -e "-----------------------------------------------------------------------
 sudo apt-get -y -qq update 							# Update library
 sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
 echo -e "\n\nAPT-GET update complete\n\n"
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -86,6 +76,7 @@ echo -e "-----------------------------------------------------------------------
 sudo cp -f files/locale.gen /etc/locale.gen 		# Set locale to US
 sudo cp -f files/keyboard /etc/default/keyboard		# Set keyboard layout to US
 echo -e "\n\nUS Locale & Keyboard setup complete\n\n"
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -118,6 +109,7 @@ if [ "$setupWifi" == "1" ]; then
 	fi
 
 fi
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -162,6 +154,7 @@ if [ "$setupPrimaryUser" == "1" ]; then
 	fi
 
 fi
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
