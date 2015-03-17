@@ -20,8 +20,9 @@ clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 echo -e " Gathering all user input"
 echo -e "-------------------------------------------------------------------------------------"
 
+# ----- Setup Wifi ------------------------------------------
 setupWifi=0
-echo -n "Set up wireless adapter ('y' for yes) ? "
+echo -n "Set up wireless adapter? ('y' for yes) "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	setupWifi=1
@@ -33,6 +34,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	done
 fi
 
+# ----- Setup New username ----------------------------------
 cont="n"
 setupPrimaryUser=1
 echo -e "\n\nLet's set up a new primary user..."
@@ -45,6 +47,19 @@ while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 done
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
+# ----- Setup hostname --------------------------------------
+cont="n"
+setupHostname=0
+echo -n "Set up new hostname? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	setupHostname=1
+	cont="n"
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter new hostname: "; read newHostname
+		echo -n "Hostname ok [y/n]? "; read -n 1 cont; echo
+	done
+fi
 
 
 
@@ -106,9 +121,8 @@ if [ "$setupWifi" == "1" ]; then
 		sudo mv -f ./interfaces /etc/network/
 		echo -e "\n\nWireless Networking setup complete\n\n"
 	fi
-
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -152,20 +166,40 @@ if [ "$setupPrimaryUser" == "1" ]; then
 
 		echo -e "\n\nUser environment setup complete\n\n"
 	fi
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
-test_function() {
-	echo "I want to see if this gets executed if I don't call it specifically"
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
-}
 
 
 
 #####################################################################################
-## Determine whether need to reboot or not
+## Set up new hostname
+## --- Thanks to raspi-config, published under the MIT license
+#####################################################################################
+currentHostname=`cat /etc/hostname | tr -d " \t\n\r"`
+if [ $? -eq 0 ]; then
+	echo $newHostname > /etc/hostname
+	sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" /etc/hosts
+fi
+
+
+
+
+
+#####################################################################################
+## Expand filesystem to the maximum on the card
+#####################################################################################
+sudo ./system/expand_filesystem.sh
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
+
+
+
+
+#####################################################################################
+## Reboot the machine
 #####################################################################################
 echo "---------------------------------------------------------------------------------"
 echo "Based on the work that was just completed we recommend that you restart your"
