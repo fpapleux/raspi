@@ -157,6 +157,10 @@ fi
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
+test_function() {
+	echo "I want to see if this gets executed if I don't call it specifically"
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+}
 
 
 
