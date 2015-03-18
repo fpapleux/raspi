@@ -183,7 +183,8 @@ if [ $? -eq 0 ]; then
 	echo $newHostname > /etc/hostname
 	sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" /etc/hosts
 fi
-
+echo "\n\nHostname setup complete"
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -192,6 +193,7 @@ fi
 ## Expand filesystem to the maximum on the card
 #####################################################################################
 sudo ./system/expand_filesystem.sh
+echo "\n\nFilesystem expansion complete"
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
