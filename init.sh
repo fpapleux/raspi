@@ -178,10 +178,10 @@ fi
 ## Set up new hostname
 ## --- Thanks to raspi-config, published under the MIT license
 #####################################################################################
-currentHostname=`cat /etc/hostname | tr -d " \t\n\r"`
+currentHostname=`sudo cat /etc/hostname | tr -d " \t\n\r"`
 if [ $? -eq 0 ]; then
-	echo $newHostname > /etc/hostname
-	sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" /etc/hosts
+	sudo echo $newHostname > /etc/hostname
+	sudo sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" /etc/hosts
 fi
 echo "\n\nHostname setup complete"
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
