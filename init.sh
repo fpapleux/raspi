@@ -180,10 +180,13 @@ fi
 #####################################################################################
 currentHostname=`sudo cat /etc/hostname | tr -d " \t\n\r"`
 if [ $? -eq 0 ]; then
-	sudo echo $newHostname > /etc/hostname
-	sudo sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" /etc/hosts
+	echo $newHostname > ~/hostname
+	sudo mv -f ~/hostname /etc
+	sudo cp /etc/hosts ~
+	sudo sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" ~/hosts
+	sudo mv -f ~/hosts /etc
 fi
-echo "\n\nHostname setup complete"
+echo -e "\n\nHostname setup complete"
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
@@ -193,7 +196,7 @@ echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 ## Expand filesystem to the maximum on the card
 #####################################################################################
 sudo ./system/expand_filesystem.sh
-echo "\n\nFilesystem expansion complete"
+echo -e "\n\nFilesystem expansion complete"
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
