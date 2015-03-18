@@ -155,7 +155,7 @@ if [ "$setupPrimaryUser" == "1" ]; then
 		# Setting up sudo rights
 		echo -e "$user ALL=(ALL) NOPASSWD: ALL" > ./"$user"
 		sudo chown -R root:root ./"$user"
-		chmod 440 ./"$user"
+		sudo chmod 440 ./"$user"
 
 		sudo mv -f ./"$user" /etc/sudoers.d
 		
