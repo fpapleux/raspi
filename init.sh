@@ -177,7 +177,7 @@ fi
 #####################################################################################
 ## Expand filesystem to the maximum on the card
 #####################################################################################
-sudo system/expand_filesystem.sh
+sudo ~/raspi/system/expand_filesystem.sh
 echo -e "\n\nFilesystem expansion complete"
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
