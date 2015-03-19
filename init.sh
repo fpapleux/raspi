@@ -175,6 +175,17 @@ fi
 
 
 #####################################################################################
+## Expand filesystem to the maximum on the card
+#####################################################################################
+sudo system/expand_filesystem.sh
+echo -e "\n\nFilesystem expansion complete"
+echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
+
+
+
+
+#####################################################################################
 ## Set up new hostname
 ## --- Thanks to raspi-config, published under the MIT license
 #####################################################################################
@@ -188,17 +199,6 @@ if [ $? -eq 0 ]; then
 fi
 echo -e "\n\nHostname setup complete"
 echo -n "-- Press any key to continue --"; read -n 1 cont; echo
-
-
-
-
-#####################################################################################
-## Expand filesystem to the maximum on the card
-#####################################################################################
-sudo ./system/expand_filesystem.sh
-echo -e "\n\nFilesystem expansion complete"
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
-
 
 
 

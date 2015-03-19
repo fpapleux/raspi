@@ -53,7 +53,7 @@ EOF
 # ASK_TO_REBOOT=1		# Removing this line because the parent script will reboot anyway
 
 # now set up an init.d script
-cat <<\EOF > /etc/init.d/resize2fs_once &&
+cat <<EOF > /etc/init.d/resize2fs_once &&
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides: resize2fs_once
