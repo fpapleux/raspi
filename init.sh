@@ -20,6 +20,24 @@ clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 echo -e " Gathering all user input"
 echo -e "-------------------------------------------------------------------------------------"
 
+# ----- Refresh System --------------------------------------
+cont="n"
+refreshSystem=0
+echo -n "update & upgrade apt-get packages? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	refreshSystem=1
+fi
+
+# ----- Setting up US Locale & Keyboard ---------------------
+cont="n"
+setupLocale=0
+echo -n "Set up US locale and keyboard? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	setupLocale=1
+fi
+
 # ----- Setup Wifi ------------------------------------------
 setupWifi=0
 echo -n "Set up wireless adapter? ('y' for yes) "
@@ -36,16 +54,29 @@ fi
 
 # ----- Setup New username ----------------------------------
 cont="n"
-setupPrimaryUser=1
-echo -e "\n\nLet's set up a new primary user..."
-while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
-	echo -n "Enter username: "; read user
-	echo -n "Enter full name: "; read userFullName
-	echo -n "Enter password: "; read password
-	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-	if [ "$user" == "" ]; then cont="n"; fi
-done
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+setupPrimaryUser=0
+echo -n "Set up new primary user? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	setupPrimaryUser=1
+	echo -e "\n\nLet's set up a new primary user..."
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter username: "; read user
+		echo -n "Enter full name: "; read userFullName
+		echo -n "Enter password: "; read password
+		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
+		if [ "$user" == "" ]; then cont="n"; fi
+	done
+fi
+
+# ----- Set Up file system expansion ---------------------
+cont="n"
+expandFilesytem=0
+echo -n "Expand file system to the whole card? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	expandFilesystem=1
+fi
 
 # ----- Setup hostname --------------------------------------
 cont="n"
@@ -68,15 +99,17 @@ fi
 ## RERESH SYSTEM WITH APT-GET LIBRARY UPDATE & UPGRADE
 #####################################################################################
 
-clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
-echo -e " Updating APT-GET libraries and installed packages..."
-echo -e "-------------------------------------------------------------------------------------"
-sudo apt-get -y -qq update 							# Update library
-sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
-echo -e "\n\nAPT-GET update complete\n\n"
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+if [ "$refreshSystem" == "1" ]; then
 
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Updating APT-GET libraries and installed packages..."
+	echo -e "-------------------------------------------------------------------------------------"
+	sudo apt-get -y -qq update 							# Update library
+	sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
+	echo -e "\n\nAPT-GET update complete\n\n"
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
+fi
 
 
 
@@ -84,15 +117,17 @@ echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 ## ADJUSTING SYSTEM SETTINGS
 #####################################################################################
 
-clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
-echo -e " Setting US locale and keyboard..."
-echo -e "-------------------------------------------------------------------------------------"
-sudo cp -f files/locale.gen /etc/locale.gen 		# Set locale to US
-sudo cp -f files/keyboard /etc/default/keyboard		# Set keyboard layout to US
-echo -e "\n\nUS Locale & Keyboard setup complete\n\n"
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+if [ "$setupLocale" == "1" ]; then
 
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Setting US locale and keyboard..."
+	echo -e "-------------------------------------------------------------------------------------"
+	sudo cp -f files/locale.gen /etc/locale.gen 		# Set locale to US
+	sudo cp -f files/keyboard /etc/default/keyboard		# Set keyboard layout to US
+	echo -e "\n\nUS Locale & Keyboard setup complete\n\n"
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
+fi
 
 
 
@@ -177,10 +212,18 @@ fi
 #####################################################################################
 ## Expand filesystem to the maximum on the card
 #####################################################################################
-sudo ~/raspi/system/expand_filesystem.sh
-echo -e "\n\nFilesystem expansion complete"
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
+if [ "$expandFilesystem" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Expanding file system..."
+	echo -e "-------------------------------------------------------------------------------------"
+	
+	sudo ~/raspi/system/expand_filesystem.sh
+	echo -e "\n\nFilesystem expansion complete"
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
+fi
 
 
 
@@ -189,16 +232,25 @@ echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 ## Set up new hostname
 ## --- Thanks to raspi-config, published under the MIT license
 #####################################################################################
-currentHostname=`sudo cat /etc/hostname | tr -d " \t\n\r"`
-if [ $? -eq 0 ]; then
-	echo $newHostname > ~/hostname
-	sudo mv -f ~/hostname /etc
-	sudo cp /etc/hosts ~
-	sudo sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" ~/hosts
-	sudo mv -f ~/hosts /etc
+
+if [ "$setupHostname" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Setting up new host name..."
+	echo -e "-------------------------------------------------------------------------------------"
+	
+	currentHostname=`sudo cat /etc/hostname | tr -d " \t\n\r"`
+	if [ $? -eq 0 ]; then
+		echo $newHostname > ~/hostname
+		sudo mv -f ~/hostname /etc
+		sudo cp /etc/hosts ~
+		sudo sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" ~/hosts
+		sudo mv -f ~/hosts /etc
+	fi
+	echo -e "\n\nHostname setup complete"
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
 fi
-echo -e "\n\nHostname setup complete"
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -206,6 +258,8 @@ echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 #####################################################################################
 ## Reboot the machine
 #####################################################################################
+
+clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 echo "---------------------------------------------------------------------------------"
 echo "Based on the work that was just completed we recommend that you restart your"
 echo "machine and log back in using your new user account to continue this process."
