@@ -226,7 +226,7 @@ if [ "$expandFilesystem" == "1" ]; then
 
 
 
-	sudo ~/raspi/system/expand_filesystem.sh
+	sudo expand_filesystem.sh
 	echo -e "\n\nFilesystem expansion complete"
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
