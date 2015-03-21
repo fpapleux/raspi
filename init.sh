@@ -226,7 +226,7 @@ if [ "$expandFilesystem" == "1" ]; then
 
 
 
-	sudo expand_filesystem.sh
+	sudo $PWD/expand_filesystem.sh
 	echo -e "\n\nFilesystem expansion complete"
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
@@ -253,6 +253,7 @@ if [ "$setupHostname" == "1" ]; then
 		sudo cp /etc/hosts ~
 		sudo sed -i "s/127.0.1.1.*$currentHostname/127.0.1.1\t$newHostname/g" ~/hosts
 		sudo mv -f ~/hosts /etc
+		set HOSTNAME="$newHostname"
 	fi
 	echo -e "\n\nHostname setup complete"
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
