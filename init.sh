@@ -157,6 +157,7 @@ if [ "$setupWifi" == "1" ]; then
 		echo -e "\n\nWireless Networking setup complete\n\n"
 	fi
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
 fi
 
 
@@ -219,6 +220,12 @@ if [ "$expandFilesystem" == "1" ]; then
 	echo -e " Expanding file system..."
 	echo -e "-------------------------------------------------------------------------------------"
 	
+	# rootPart=$(readlink /dev/root)
+	# partNum=${rootPart#mmcblk0p}
+	# partStart=$(parted /dev/mmcblk0 -ms unit s p | grep "^${partNum}" | cut -f 2 -d:)
+
+
+
 	sudo ~/raspi/system/expand_filesystem.sh
 	echo -e "\n\nFilesystem expansion complete"
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
