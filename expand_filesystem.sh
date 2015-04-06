@@ -58,36 +58,37 @@ EOF
 # ASK_TO_REBOOT=1		# Removing this line because the parent script will reboot anyway
 
 # now set up an init.d script
-cat <<EOF > ./resize2fs_once &&
+cat <<\EOF > ./resize2fs_once &&
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides: resize2fs_once
+# Provides:          resize2fs_once
 # Required-Start:
 # Required-Stop:
-# Default-Start: 2 3 4 5
+# Default-Start: 2 3 4 5 S
 # Default-Stop:
 # Short-Description: Resize the root filesystem to fill partition
 # Description:
 ### END INIT INFO
-. /lib/lsb/init-functions
-case "$1" in
-start)
-log_daemon_msg "Starting resize2fs_once" &&
-resize2fs /dev/root &&
-rm /etc/init.d/resize2fs_once &&
-update-rc.d resize2fs_once remove &&
-log_end_msg $?
-;;
-*)
-echo "Usage: $0 start" >&2
-exit 3
-;;
-esac
 
+. /lib/lsb/init-functions
+
+case "$1" in
+	start)
+		log_daemon_msg "Starting resize2fs_once" &&
+		resize2fs /dev/root &&
+		rm /etc/init.d/resize2fs_once &&
+		update-rc.d resize2fs_once remove &&
+		log_end_msg $?
+		;;
+	*)
+		echo "Usage: $0 start" >&2
+		exit 3
+		;;
+esac
 EOF
-sudo mv ./resize2fs_once /etc/init.d
-sudo chmod +x /etc/init.d/resize2fs_once &&
-sudo update-rc.d resize2fs_once defaults &&
-if [ "$INTERACTIVE" = True ]; then
-	echo -e "Root partition has been resized.\nThe filesystem will be enlarged upon the next reboot"
-fi
+	sudo mv ./resize2fs_once /etc/init.d
+	sudo chmod +x /etc/init.d/resize2fs_once &&
+	sudo update-rc.d resize2fs_once defaults &&
+	if [ "$INTERACTIVE" = True ]; then
+		echo "Root partition has been resized.\nThe filesystem will be enlarged upon the next reboot"
+	fi
