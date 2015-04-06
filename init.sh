@@ -140,7 +140,7 @@ if [ "$setupWifi" == "1" ]; then
 	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 	echo -e " Setting up wireless networking..."
 	echo -e "-------------------------------------------------------------------------------------"
-	
+
 	sudo apt-get -y install wireless-tools				# drivers for wifi
 	sudo apt-get -y install wpasupplicant				# Other command for wifi drivers
 
@@ -173,7 +173,7 @@ if [ "$setupPrimaryUser" == "1" ]; then
 	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 	echo -e " Setting up new primary user..."
 	echo -e "-------------------------------------------------------------------------------------"
-	
+
 	if [ "$user" != "" ]; then
 		# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
 		# echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
@@ -181,20 +181,20 @@ if [ "$setupPrimaryUser" == "1" ]; then
 		# rm ./userinfo
 		sudo adduser "$user" --gecos "$userFullName, , , " --disabled-password
 		echo "$user:$password" | sudo chpasswd
-
+		
 		# Configuring user environment
 		sudo cp -f files/.bashrc /home/"$user"/					# Set bash environment
 		sudo cp -f files/.nanorc /home/"$user"/					# Set bash environment
 		sudo chown "$user":"$user" /home/"$user"/.bashrc
 		sudo chown "$user":"$user" /home/"$user"/.nanorc
-
+		
 		# Setting up sudo rights
 		echo -e "$user ALL=(ALL) NOPASSWD: ALL" > ./"$user"
 		sudo chown -R root:root ./"$user"
 		sudo chmod 440 ./"$user"
-
-		sudo mv -f ./"$user" /etc/sudoers.d
 		
+		sudo mv -f ./"$user" /etc/sudoers.d
+
 		# Setting up raspi in new user's environment to enable next steps
 		cd /home/"$user"
 		sudo git clone https://github.com/fpapleux/raspi 		# clone git repo into new user home
@@ -226,7 +226,7 @@ if [ "$expandFilesystem" == "1" ]; then
 
 
 
-	sudo $PWD/expand_filesystem.sh
+	$HOME/raspi/expand_filesystem.sh
 	echo -e "\n\nFilesystem expansion complete"
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
