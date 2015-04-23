@@ -94,6 +94,15 @@ fi
 
 
 
+#####################################################################################
+## DEFAULT CHANGES
+#####################################################################################
+sudo cp -f files/.bashrc /home/pi					# Set bash environment
+sudo cp -f files/.nanorc /home/pi					# Set bash environment
+sudo chown pi:pi /home/pi/.bashrc
+sudo chown pi:pi /home/pi/.nanorc
+
+
 
 #####################################################################################
 ## RERESH SYSTEM WITH APT-GET LIBRARY UPDATE & UPGRADE
