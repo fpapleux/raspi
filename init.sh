@@ -52,7 +52,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	done
 fi
 
-# ----- Setup New username ----------------------------------
+# ----- Setup New user ------------------------------------
 cont="n"
 setupPrimaryUser=0
 echo -n "Set up new primary user? ('y' for yes) "
@@ -64,6 +64,20 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Enter username: "; read user
 		echo -n "Enter full name: "; read userFullName
 		echo -n "Enter password: "; read password
+		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
+		if [ "$user" == "" ]; then cont="n"; fi
+	done
+fi
+
+# ----- change pi password --------------------------------
+cont="n"
+changePiPwd=0
+echo -n "Change pi user password? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	changePiPwd=1
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter new pi user password: "; read piPassword
 		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
 		if [ "$user" == "" ]; then cont="n"; fi
 	done
@@ -184,6 +198,7 @@ if [ "$setupPrimaryUser" == "1" ]; then
 	echo -e "-------------------------------------------------------------------------------------"
 
 	if [ "$user" != "" ]; then
+		# Code updated to deprecate below system of 
 		# cat files/userinfo | sed -e "s/\#PASSWORD/$password/" -e "s/\#USERFULLNAME/$userFullName/" > ./userinfo
 		# echo -e "$password\n$password\n\n\n\n\n\ny\n" > ./userinfo	# Creating user
 		# sudo adduser --home /home/"$user" "$user" < ./userinfo	# Creating user
@@ -220,6 +235,26 @@ fi
 
 
 #####################################################################################
+## Changing Pi Password
+#####################################################################################
+
+if [ "$changePiPwd" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Changing Pi Password..."
+	echo -e "-------------------------------------------------------------------------------------"
+
+	echo "$user:$password" | sudo chpasswd
+	echo -e "\n\npi user passowrd changed...\n\n"
+	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
+fi
+
+
+
+
+
+#####################################################################################
 ## Expand filesystem to the maximum on the card
 #####################################################################################
 
@@ -229,12 +264,6 @@ if [ "$expandFilesystem" == "1" ]; then
 	echo -e " Expanding file system..."
 	echo -e "-------------------------------------------------------------------------------------"
 	
-	# rootPart=$(readlink /dev/root)
-	# partNum=${rootPart#mmcblk0p}
-	# partStart=$(parted /dev/mmcblk0 -ms unit s p | grep "^${partNum}" | cut -f 2 -d:)
-
-
-
 	$HOME/raspi/expand_filesystem.sh
 	echo -e "\n\nFilesystem expansion complete"
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo

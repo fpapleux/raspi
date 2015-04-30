@@ -12,7 +12,7 @@ I created this system to accelerate provisioning a Raspberry Pi from scratch, wh
 
 In order to run the next steps, please make sure your raspberry pi is connected to the internet.  On first boot, you would ideally plug in an ethernet cable.  Note that the process will take you through configuring a wireless adapter (I am always using the EDIMAX EW7811, which is a tiny 802.11n USB adapter).
 
-	1. Start your Raspberry Pi. It will boot automatically into the configuration tool, raspi-config. It's a good tool but it's insufficient for our use so just exit.
+	1. Start your Raspberry Pi. It will boot automatically into the configuration tool, raspi-config. Just exit without making any change.
 
 	2. Install this system by cloning this repository. It is done by typing the following commands:
 		```
