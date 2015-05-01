@@ -79,7 +79,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 		echo -n "Enter new pi user password: "; read piPassword
 		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-		if [ "$user" == "" ]; then cont="n"; fi
+		if [ "$piPassword" == "" ]; then cont="n"; fi
 	done
 fi
 
@@ -244,7 +244,7 @@ if [ "$changePiPwd" == "1" ]; then
 	echo -e " Changing Pi Password..."
 	echo -e "-------------------------------------------------------------------------------------"
 
-	echo "$user:$password" | sudo chpasswd
+	echo "pi:$piPassword" | sudo chpasswd
 	echo -e "\n\npi user passowrd changed...\n\n"
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
