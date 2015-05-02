@@ -175,8 +175,13 @@ if [ "$setupWifi" == "1" ]; then
 		echo "------------------------ PRESS ANY KEY TO CONTINUE ------------------------------"
 		read -n 1 q; echo
 	else
+		## Grab encoded PSK from SSID and WPA Key
+		# wpaPsk=$(wpa_passphrase "$ssid" "$wpa" | grep 'psk=[^"]' | tr -d "\tpsk=")
+
 		cat files/interfaces | sed -e "s/\#INTERFACE/$interface/" -e "s/\#SSID/$ssid/" -e "s/\#WPA/$wpa/" > ./interfaces
 		sudo mv -f ./interfaces /etc/network/
+		sudo ifdown $interface
+		sudo ifup $interface
 		echo -e "\n\nWireless Networking setup complete\n\n"
 	fi
 	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
