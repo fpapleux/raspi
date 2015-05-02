@@ -4,10 +4,8 @@ clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
 echo -e "-------------------------------------------------------------------------------------"
 echo -e "| Initializing new RaspberryPi                                                      |"
 echo -e "-------------------------------------------------------------------------------------"
-echo -e "\n- Make sure it is connected to the Internet..."
-echo -e "- The system will force you to create a new primary user for security. In the next step the Pi user will be deleted."
-echo -e "- When done you will be asked to reboot. After reboot, run ~/raspi/raspi.sh"
-echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+echo -e "\n- Make sure it is connected to the Internet... (probably use an ethernet cable at this point)"
+echo -en "\n\n-- Press any key to continue --"; read -n 1 cont; echo
 
 
 
@@ -52,23 +50,6 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	done
 fi
 
-# ----- Setup New user ------------------------------------
-cont="n"
-setupPrimaryUser=0
-echo -n "Set up new primary user? ('y' for yes) "
-read -n 1 q; echo
-if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	setupPrimaryUser=1
-	echo -e "\n\nLet's set up a new primary user..."
-	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
-		echo -n "Enter username: "; read user
-		echo -n "Enter full name: "; read userFullName
-		echo -n "Enter password: "; read password
-		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-		if [ "$user" == "" ]; then cont="n"; fi
-	done
-fi
-
 # ----- change pi password --------------------------------
 cont="n"
 changePiPwd=0
@@ -80,6 +61,23 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Enter new pi user password: "; read piPassword
 		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
 		if [ "$piPassword" == "" ]; then cont="n"; fi
+	done
+fi
+
+# ----- Setup New user ------------------------------------
+cont="n"
+setupPrimaryUser=0
+echo -n "Set up new user? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	setupPrimaryUser=1
+	echo -e "\n\nLet's set up a new primary user..."
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter username: "; read user
+		echo -n "Enter full name: "; read userFullName
+		echo -n "Enter password: "; read password
+		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
+		if [ "$user" == "" ]; then cont="n"; fi
 	done
 fi
 
@@ -130,7 +128,7 @@ if [ "$refreshSystem" == "1" ]; then
 	sudo apt-get -y -qq update 							# Update library
 	sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
 	echo -e "\n\nAPT-GET update complete\n\n"
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
 
@@ -148,7 +146,7 @@ if [ "$setupLocale" == "1" ]; then
 	sudo cp -f files/locale.gen /etc/locale.gen 		# Set locale to US
 	sudo cp -f files/keyboard /etc/default/keyboard		# Set keyboard layout to US
 	echo -e "\n\nUS Locale & Keyboard setup complete\n\n"
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
 
@@ -184,7 +182,7 @@ if [ "$setupWifi" == "1" ]; then
 		sudo ifup $interface
 		echo -e "\n\nWireless Networking setup complete\n\n"
 	fi
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
 
@@ -231,7 +229,7 @@ if [ "$setupPrimaryUser" == "1" ]; then
 
 		echo -e "\n\nUser environment setup complete\n\n"
 	fi
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
 
@@ -251,8 +249,7 @@ if [ "$changePiPwd" == "1" ]; then
 
 	echo "pi:$piPassword" | sudo chpasswd
 	echo -e "\n\npi user passowrd changed...\n\n"
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
-
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
 
 
@@ -271,8 +268,7 @@ if [ "$expandFilesystem" == "1" ]; then
 	
 	$HOME/raspi/expand_filesystem.sh
 	echo -e "\n\nFilesystem expansion complete"
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
-
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
 
 
@@ -299,8 +295,7 @@ if [ "$setupHostname" == "1" ]; then
 		set HOSTNAME="$newHostname"
 	fi
 	echo -e "\n\nHostname setup complete"
-	echo -n "-- Press any key to continue --"; read -n 1 cont; echo
-
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
 
 
