@@ -1,0 +1,1 @@
+curl -X PUT -H "Content-Length: 0" -i "http://207.20.246.137:9001/register/gateway?host=myMacbook&ip=10.0.1.14"

@@ -15,8 +15,9 @@ echo -en "\n\n-- Press any key to continue --"; read -n 1 cont; echo
 #####################################################################################
 
 clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
-echo -e " Gathering all user input"
+echo -e " Gathering configuration input"
 echo -e "-------------------------------------------------------------------------------------"
+echo -e "\n"
 
 # ----- Refresh System --------------------------------------
 cont="n"
@@ -26,6 +27,17 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	refreshSystem=1
 fi
+echo -e "\n"
+
+# ----- Install Avahi Zeroconf ------------------------------
+cont="n"
+installAvahi=0
+echo -n "Install Avahi daemon package to access this pi with raspberrypi.local? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installAvahi=1
+fi
+echo -e "\n"
 
 # ----- Setting up US Locale & Keyboard ---------------------
 cont="n"
@@ -35,6 +47,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	setupLocale=1
 fi
+echo -e "\n"
 
 # ----- Setup Wifi ------------------------------------------
 setupWifi=0
@@ -49,6 +62,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Wifi information ok [y/n]? "; read -n 1 cont; echo
 	done
 fi
+echo -e "\n"
 
 # ----- change pi password --------------------------------
 cont="n"
@@ -63,6 +77,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		if [ "$piPassword" == "" ]; then cont="n"; fi
 	done
 fi
+echo -e "\n"
 
 # ----- Setup New user ------------------------------------
 cont="n"
@@ -80,6 +95,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		if [ "$user" == "" ]; then cont="n"; fi
 	done
 fi
+echo -e "\n"
 
 # ----- Set Up file system expansion ---------------------
 cont="n"
@@ -89,6 +105,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	expandFilesystem=1
 fi
+echo -e "\n"
 
 # ----- Setup hostname --------------------------------------
 cont="n"
@@ -103,6 +120,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Hostname ok [y/n]? "; read -n 1 cont; echo
 	done
 fi
+echo -e "\n"
 
 
 
@@ -128,6 +146,23 @@ if [ "$refreshSystem" == "1" ]; then
 	sudo apt-get -y -qq update 							# Update library
 	sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
 	echo -e "\n\nAPT-GET update complete\n\n"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
+fi
+
+
+
+#####################################################################################
+## Install Avahi Daemon for zeroconf access (raspberrypi.local)
+#####################################################################################
+
+if [ "$installAvahi" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Avahi..."
+	echo -e "-------------------------------------------------------------------------------------"
+	sudo apt-get -y install avahi-daemon 
+	echo -e "\n\nAvahi Daemon Installed...\n\n"
 	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
