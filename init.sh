@@ -39,6 +39,15 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 fi
 echo -e "\n"
 
+# ----- Install Bluetooth suite -----------------------------
+installBluetooth=0
+echo -n "Install bluetooth USB adapter software? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installBluetooth=1
+fi
+echo -e "\n"
+
 # ----- Setting up US Locale & Keyboard ---------------------
 cont="n"
 setupLocale=0
@@ -122,6 +131,16 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 fi
 echo -e "\n"
 
+# ----- Install node.js --------------------------------------
+cont="n"
+installNode=0
+echo -n "Install node.js? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installNode=1
+fi
+echo -e "\n"
+
 
 
 #####################################################################################
@@ -131,6 +150,8 @@ sudo cp -f files/.bashrc /home/pi					# Set bash environment
 sudo cp -f files/.nanorc /home/pi					# Set bash environment
 sudo chown pi:pi /home/pi/.bashrc
 sudo chown pi:pi /home/pi/.nanorc
+mkdir ~/temp
+
 
 
 
@@ -145,10 +166,13 @@ if [ "$refreshSystem" == "1" ]; then
 	echo -e "-------------------------------------------------------------------------------------"
 	sudo apt-get -y -qq update 							# Update library
 	sudo apt-get -y -qq upgrade 						# Upgrade all local libraries
+	sudo apt-get -y autoremove							# removes redundant packages after upgrade
 	echo -e "\n\nAPT-GET update complete\n\n"
 	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
+
+
 
 
 
@@ -169,6 +193,30 @@ fi
 
 
 
+
+
+#####################################################################################
+## Installing bluetooth tools
+#####################################################################################
+
+if [ "$installBluetooth" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Bluetooth tools..."
+	echo -e "-------------------------------------------------------------------------------------"
+	sudo apt-get -y install bluez
+	sudo apt-get -y install python-gobject
+	echo -e "\n\nVerify that your bluetooth adapter is displayed below:"
+	hcitool dev
+	echo -e "\n\nBluetooth installed...\n\n"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
+fi
+
+
+
+
+
 #####################################################################################
 ## ADJUSTING SYSTEM SETTINGS
 #####################################################################################
@@ -184,6 +232,8 @@ if [ "$setupLocale" == "1" ]; then
 	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
 fi
+
+
 
 
 
@@ -332,6 +382,33 @@ if [ "$setupHostname" == "1" ]; then
 	echo -e "\n\nHostname setup complete"
 	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
+
+
+
+
+
+
+#####################################################################################
+## Install node.js
+#####################################################################################
+
+if [ "$installNode" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing node.js..."
+	echo -e "-------------------------------------------------------------------------------------"
+
+	cd ~/temp
+	wget http://nodejs.org/dist/v0.12.2/node-v0.12.2.tar.gz
+	tar -xvf node-v0.12.2.tar.gz
+	cd node-v0.12.2
+	sudo ./configure
+	sudo make
+	sudo make install
+	echo -e "\n\n Node JS install complete -- current version is $(node -v)"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+fi
+
 
 
 

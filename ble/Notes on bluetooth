@@ -1,0 +1,29 @@
+Notes on bluetooth 
+
+1. I am using a broadcom-based bluetooth 4.0 USB dongle in the rpi. running "lsusb" returns the following line upon plug in of the dongle:
+
+Bus 001 Device 006: ID 0a5c:21e8 Broadcom Corp.
+
+2. run 'sudo apt-get -y install bluez' to get the linux bluetooth stack.
+Also need 'sudo apt-get -y install python-gobject'
+
+3. Reference pages for how to use bluetooth tool:
+http://www.correlatedcontent.com/blog/bluetooth-keyboard-on-the-raspberry-pi/
+
+4. Pairing is done through the following steps:
+
+a) 'hcitool dev' displays info about the local device (the dongle). Should return 2 things:
+
+Devices:
+	hci0	00:02:72:D9:F4:FC
+
+b) place the device to connect in discovery/pairing mode.
+Type 'hcitool scan'
+it will respond something like
+Scanning ...
+	B8:F6:B1:0E:1D:FF	Fabien Papleux’s Keyboard
+Type 'sudo bluez-simple-agent hci0 B8:F6:B1:0E:1D:FF'
+It will display
+
+
+
