@@ -27,7 +27,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	refreshSystem=1
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Install Avahi Zeroconf ------------------------------
 cont="n"
@@ -37,7 +37,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	installAvahi=1
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Install Bluetooth suite -----------------------------
 installBluetooth=0
@@ -46,7 +46,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	installBluetooth=1
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Setting up US Locale & Keyboard ---------------------
 cont="n"
@@ -56,7 +56,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	setupLocale=1
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Setup Wifi ------------------------------------------
 setupWifi=0
@@ -71,7 +71,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Wifi information ok [y/n]? "; read -n 1 cont; echo
 	done
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- change pi password --------------------------------
 cont="n"
@@ -86,7 +86,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		if [ "$piPassword" == "" ]; then cont="n"; fi
 	done
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Setup New user ------------------------------------
 cont="n"
@@ -104,7 +104,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		if [ "$user" == "" ]; then cont="n"; fi
 	done
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Set Up file system expansion ---------------------
 cont="n"
@@ -114,7 +114,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	expandFilesystem=1
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Setup hostname --------------------------------------
 cont="n"
@@ -129,7 +129,7 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 		echo -n "Hostname ok [y/n]? "; read -n 1 cont; echo
 	done
 fi
-echo -e "\n"
+# echo -e "\n"
 
 # ----- Install node.js --------------------------------------
 cont="n"
@@ -139,7 +139,7 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	installNode=1
 fi
-echo -e "\n"
+# echo -e "\n"
 
 
 
