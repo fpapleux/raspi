@@ -140,14 +140,14 @@ read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	installNode=1
 fi
-
 cont="n"
-echo -n "Do you want to install node.js from source (compile)? ('y' for yes) "
-read -n 1 q; echo
-if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-	compileNode=1
+if [ "$installNode" == "1" ]; then
+	echo -n "Do you want to install node.js from source (compile)? ('y' for yes) "
+	read -n 1 q; echo
+	if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+		compileNode=1
+	fi
 fi
-
 # echo -e "\n"
 
 
