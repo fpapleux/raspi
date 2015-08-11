@@ -25,3 +25,7 @@ In order to run the next steps, please make sure your raspberry pi is connected 
 
 	4. Reboot the system as suggested and log in with your new user. This should be safe to work now.
 
+
+So far, the system is setup to do the following (all optional at this point -- there will be a script that fully automates the process):
+
+	1. 

@@ -134,11 +134,20 @@ fi
 # ----- Install node.js --------------------------------------
 cont="n"
 installNode=0
+compileNode=0
 echo -n "Install node.js? ('y' for yes) "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	installNode=1
 fi
+
+cont="n"
+echo -n "Do you want to install node.js from source (compile)? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	compileNode=1
+fi
+
 # echo -e "\n"
 
 
@@ -398,13 +407,20 @@ if [ "$installNode" == "1" ]; then
 	echo -e " Installing node.js..."
 	echo -e "-------------------------------------------------------------------------------------"
 
-	cd ~/temp
-	wget http://nodejs.org/dist/v0.12.2/node-v0.12.2.tar.gz
-	tar -xvf node-v0.12.2.tar.gz
-	cd node-v0.12.2
-	sudo ./configure
-	sudo make
-	sudo make install
+	if [ "$compileNode" == "1" ]; then
+		cd ~/temp
+		wget http://nodejs.org/dist/v0.12.2/node-v0.12.2.tar.gz
+		tar -xvf node-v0.12.2.tar.gz
+		cd node-v0.12.2
+		sudo ./configure
+		sudo make
+		sudo make install
+	else
+		curl -sL https://deb.nodesource.com/setup | sudo bash -
+		sudo apt-get install nodejs
+	fi
+	node --version
+
 	echo -e "\n\n Node JS install complete -- current version is $(node -v)"
 	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
