@@ -139,9 +139,7 @@ echo -n "Install node.js? ('y' for yes) "
 read -n 1 q; echo
 if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	installNode=1
-fi
-cont="n"
-if [ "$installNode" == "1" ]; then
+	cont="n"
 	echo -n "Do you want to install node.js from source (compile)? ('y' for yes) "
 	read -n 1 q; echo
 	if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
@@ -416,8 +414,8 @@ if [ "$installNode" == "1" ]; then
 		sudo make
 		sudo make install
 	else
-		curl -sL https://deb.nodesource.com/setup | sudo bash -
-		sudo apt-get install nodejs
+		curl -sLs https://apt.adafruit.com/add | sudo bash
+		sudo apt-get install node
 	fi
 	node --version
 
