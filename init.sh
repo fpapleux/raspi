@@ -149,7 +149,7 @@ fi
 # echo -e "\n"
 
 
-# ----- Install node.js --------------------------------------
+# ----- Install FULL Oracle Java 8 --------------------------------------
 cont="n"
 installJava8=0
 echo -n "Install Oracle Java 8? ('y' for yes) "
@@ -158,6 +158,46 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 	installJava8=1
 fi
 # echo -e "\n"
+
+
+
+# ----- Install Maven --------------------------------------
+cont="n"
+installMaven=0
+echo -n "Install Maven3? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installMaven=1
+fi
+# echo -e "\n"
+
+
+
+# ----- Install Cassandra 2.2 --------------------------------------
+cont="n"
+installCassandra=0
+echo -n "Install Apache Cassandra 2.2? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installCassandra=1
+fi
+# echo -e "\n"
+
+
+# ----- Install Cassandra 2.2 --------------------------------------
+cont="n"
+freeSerialPort=0
+echo -n "Free serial port from console use? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	freeSerialPort=1
+fi
+# echo -e "\n"
+
+
+
+
+
 
 
 
@@ -288,6 +328,31 @@ if [ "$setupWifi" == "1" ]; then
 	fi
 	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 
+fi
+
+
+
+
+
+#####################################################################################
+## Free Serial Port
+#####################################################################################
+
+if [ "$freeSerialPort" == "1" ]; then
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Freeing serial port from console use, to enable GPIO..."
+	echo -e "-------------------------------------------------------------------------------------"
+	
+	sudo mv /boot/cmdline.txt /boot/cmdline.txt.bk
+	sudo cp files/cmdlines.txt /boot/
+	sudo chown "root":"root" /boot/cmdline.txt
+
+	sudo mv /etc/inittab /etc/inittab.bk
+	sudo cp files/inittab /etc/
+	sudo chown "root":"root" /etc/inittab
+
+	echo -e "\n\n Serial port freed... on next reboot"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
 
 
@@ -441,7 +506,7 @@ fi
 
 
 #####################################################################################
-## Install Oracle Java 8
+## Install full Oracle Java 8
 #####################################################################################
 
 if [ "$installJava8" == "1" ]; then
@@ -507,6 +572,7 @@ fi
 #####################################################################################
 ## Install Usergrid
 #####################################################################################
+### NOT COMPLETE ###
 
 if [ "$installUsergrid" == "1" ]; then
 	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
