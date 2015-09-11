@@ -416,8 +416,8 @@ if [ "$installNode" == "1" ]; then
 		sudo make
 		sudo make install
 	else
-		curl -sL https://deb.nodesource.com/setup | sudo bash -
-		sudo apt-get install nodejs
+		curl -sLS https://apt.adafruit.com/add | sudo bash
+		sudo apt-get install node
 	fi
 	node --version
 
