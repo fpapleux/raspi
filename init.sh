@@ -149,6 +149,18 @@ fi
 # echo -e "\n"
 
 
+# ----- Install node.js --------------------------------------
+cont="n"
+installJava8=0
+echo -n "Install Oracle Java 8? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installJava8=1
+fi
+# echo -e "\n"
+
+
+
 
 #####################################################################################
 ## DEFAULT CHANGES
@@ -424,6 +436,91 @@ if [ "$installNode" == "1" ]; then
 fi
 
 
+
+
+
+
+#####################################################################################
+## Install Oracle Java 8
+#####################################################################################
+
+if [ "$installJava8" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Oracle Java 8..."
+	echo -e "-------------------------------------------------------------------------------------"
+
+	sudo add-apt-repository ppa:webupd8team/java
+	sudo apt-get update
+	sudo apt-get -y install oracle-java8-installer
+	sudo apt-get -y install oracle-java8-set-default
+
+	echo -e "\n\n Oracle Java 8 install complete"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+fi
+
+
+
+
+
+
+
+#####################################################################################
+## Install Cassandra 2.2
+#####################################################################################
+# NOTE: ONLY WORKS WITH VERSION 2.2 -- Need to find the "current version" directory...
+
+if [ "$installCassandra" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Apache Cassandra 2.2.1..."
+	echo -e "-------------------------------------------------------------------------------------"
+
+	sudo sh -c 'echo "deb http://debian.datastax.com/community/ stable main" >> /etc/apt/sources.list.d/datastax.list'
+	curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
+	sudo apt-get update
+	sudo apt-get -y install dsc22
+	sudo service cassandra start
+
+	echo -e "\n\n Apache Cassandra 2.2.1 install complete"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+fi
+
+
+
+#####################################################################################
+## Install maven 3
+#####################################################################################
+
+if [ "$installMaven" == "1" ]; then
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Apache Maven 3..."
+	echo -e "-------------------------------------------------------------------------------------"
+	sudo apt-get -y install maven
+
+	echo -e "\n\n Apache Maven 3 install complete"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+fi
+
+
+
+#####################################################################################
+## Install Usergrid
+#####################################################################################
+
+if [ "$installUsergrid" == "1" ]; then
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Apache Usergrid..."
+	echo -e "-------------------------------------------------------------------------------------"
+
+	cd ~
+	git clone http://github.com/apache/usergrid
+	cd usergrid/stack
+	
+
+	echo -e "\n\n Apache Maven 3 install complete"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+fi
 
 
 
