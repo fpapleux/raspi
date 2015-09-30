@@ -150,7 +150,7 @@ set smooth
 set suspend
 
 ## Use this tab size instead of the default; it must be greater than 0.
-set tabsize 3
+set tabsize 4
 
 ## Convert typed tabs to spaces.
 # set tabstospaces
@@ -231,69 +231,86 @@ set tabsize 3
 ## Set this if your backspace key sends delete most of the time (2.1.3+)
 # bind kdel backspace all
 
+## Nano color coding files
 
-## Nanorc files
-include "/usr/share/nano/nanorc.nanorc"
-
-## C/C++
-include "/usr/share/nano/c.nanorc"
-
-## Cascading Style Sheets
-include "/usr/share/nano/css.nanorc"
-
-## Debian files
-include "/usr/share/nano/debian.nanorc"
-
-## Gentoo files
-include "/usr/share/nano/gentoo.nanorc"
-
-## HTML
-include "/usr/share/nano/html.nanorc"
-
-## PHP
-include "/usr/share/nano/php.nanorc"
-
-## TCL
-include "/usr/share/nano/tcl.nanorc"
-
-## TeX
-include "/usr/share/nano/tex.nanorc"
-
-## Quoted emails (under e.g. mutt)
-include "/usr/share/nano/mutt.nanorc"
-
-## Patch files
-include "/usr/share/nano/patch.nanorc"
-
-## Manpages
-include "/usr/share/nano/man.nanorc"
-
-## Groff
-include "/usr/share/nano/groff.nanorc"
-
-## Perl
-include "/usr/share/nano/perl.nanorc"
-
-## Python
-include "/usr/share/nano/python.nanorc"
-
-## Ruby
-include "/usr/share/nano/ruby.nanorc"
-
-## Java
-include "/usr/share/nano/java.nanorc"
-
-## AWK
-include "/usr/share/nano/awk.nanorc"
-
-## Assembler
+include "/usr/share/nano/apache2.nanorc"
+include "/usr/share/nano/apacheconf.nanorc"
+include "/usr/share/nano/aptsrclist.nanorc"
 include "/usr/share/nano/asm.nanorc"
-
-## Bourne shell scripts
-include "/usr/share/nano/sh.nanorc"
-
-## POV-Ray
+include "/usr/share/nano/awk.nanorc"
+include "/usr/share/nano/bash.nanorc"
+include "/usr/share/nano/c-file.nanorc"
+include "/usr/share/nano/c.nanorc"
+include "/usr/share/nano/changelog.nanorc"
+include "/usr/share/nano/changelogs.nanorc"
+include "/usr/share/nano/clike.nanorc"
+include "/usr/share/nano/conf.nanorc"
+include "/usr/share/nano/config.nanorc"
+include "/usr/share/nano/config2.nanorc"
+include "/usr/share/nano/config3.nanorc"
+include "/usr/share/nano/configfiles.nanorc"
+include "/usr/share/nano/conky.nanorc"
+include "/usr/share/nano/css.nanorc"
+include "/usr/share/nano/debian.nanorc"
+include "/usr/share/nano/default.nanorc"
+include "/usr/share/nano/delphi.nanorc"
+include "/usr/share/nano/desc.nanorc"
+include "/usr/share/nano/dotemacs.nanorc"
+include "/usr/share/nano/dummy.nanorc"
+include "/usr/share/nano/ebuild.nanorc"
+include "/usr/share/nano/ekghistory.nanorc"
+include "/usr/share/nano/etc-stuff.nanorc"
+include "/usr/share/nano/etcxml.nanorc"
+include "/usr/share/nano/gentoo.nanorc"
+include "/usr/share/nano/groff.nanorc"
+include "/usr/share/nano/havp.nanorc"
+include "/usr/share/nano/html.nanorc"
+include "/usr/share/nano/httpstatuscodes.nanorc"
+include "/usr/share/nano/info.nanorc"
+include "/usr/share/nano/ini.nanorc"
+include "/usr/share/nano/initng.nanorc"
+include "/usr/share/nano/initscript.nanorc"
+include "/usr/share/nano/java.nanorc"
+include "/usr/share/nano/js.nanorc"
+include "/usr/share/nano/log-stuff.nanorc"
+include "/usr/share/nano/maincf.nanorc"
+include "/usr/share/nano/makefile.nanorc"
+include "/usr/share/nano/man.nanorc"
+include "/usr/share/nano/mcchangelog.nanorc"
+include "/usr/share/nano/mimetype.nanorc"
+include "/usr/share/nano/mutt.nanorc"
+include "/usr/share/nano/named.nanorc"
+include "/usr/share/nano/nanorc.nanorc"
+include "/usr/share/nano/nscd.nanorc"
+include "/usr/share/nano/others.nanorc"
+include "/usr/share/nano/paludis.nanorc"
+include "/usr/share/nano/passwd.nanorc"
+include "/usr/share/nano/patch.nanorc"
+include "/usr/share/nano/perl.nanorc"
+include "/usr/share/nano/php.nanorc"
+include "/usr/share/nano/php2.nanorc"
+include "/usr/share/nano/plaudis.nanorc"
+include "/usr/share/nano/po.nanorc"
+include "/usr/share/nano/postgresql.nanorc"
 include "/usr/share/nano/pov.nanorc"
-
-## XML-type files
+include "/usr/share/nano/privoxy.nanorc"
+include "/usr/share/nano/profile.nanorc"
+include "/usr/share/nano/python.nanorc"
+include "/usr/share/nano/rcfiles-new.nanorc"
+include "/usr/share/nano/rcfiles.nanorc"
+include "/usr/share/nano/rsync.nanorc"
+include "/usr/share/nano/ruby.nanorc"
+include "/usr/share/nano/sh.nanorc"
+include "/usr/share/nano/shlike.nanorc"
+include "/usr/share/nano/softcam.nanorc"
+include "/usr/share/nano/sources_list.nanorc"
+include "/usr/share/nano/tab.nanorc"
+include "/usr/share/nano/tcl.nanorc"
+include "/usr/share/nano/tex.nanorc"
+include "/usr/share/nano/urls.nanorc"
+include "/usr/share/nano/vhost.nanorc"
+include "/usr/share/nano/xdefaults.nanorc"
 include "/usr/share/nano/xml.nanorc"
+include "/usr/share/nano/xorg.nanorc"
+
+
