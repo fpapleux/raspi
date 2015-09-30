@@ -29,6 +29,16 @@ if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
 fi
 # echo -e "\n"
 
+# ----- Install NANO configurations -------------------------
+cont="n"
+installNano=0
+echo -n "Install Nano configuration files for syntax coloring? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installNano=1
+fi
+# echo -e "\n"
+
 # ----- Install Avahi Zeroconf ------------------------------
 cont="n"
 installAvahi=0
@@ -206,9 +216,9 @@ fi
 ## DEFAULT CHANGES
 #####################################################################################
 sudo cp -f files/.bashrc /home/pi					# Set bash environment
-sudo cp -f files/.nanorc /home/pi					# Set bash environment
+# sudo cp -f files/.nanorc /home/pi					# Set bash environment
 sudo chown pi:pi /home/pi/.bashrc
-sudo chown pi:pi /home/pi/.nanorc
+# sudo chown pi:pi /home/pi/.nanorc
 mkdir ~/temp
 
 
@@ -231,6 +241,26 @@ if [ "$refreshSystem" == "1" ]; then
 
 fi
 
+
+
+
+
+#####################################################################################
+## Install Nano configuration
+#####################################################################################
+
+if [ "$installNano" == "1" ]; then
+
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Nano Configuration..."
+	echo -e "-------------------------------------------------------------------------------------"
+	sudo cp -f files/.nanorc /home/pi
+	sudo chown pi:pi /home/pi/.nanorc
+	sudo cp files/nanofiles/* /usr/share/nano
+	echo -e "\n\nAvahi Daemon Installed...\n\n"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+
+fi
 
 
 
