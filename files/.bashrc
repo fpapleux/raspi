@@ -58,10 +58,10 @@ function prompt {
 	local FREEMEM=`free -m | grep Mem: | awk '{print "used " $3 "M free " $4 "M"}'`
 	local ESC="\[\033"
 	local GREY_BLACK="$ESC[00;37;40m"
-	local WHITE_BLACK="$ESC[01;37;40m"
-	local WHITE_BLUE="$ESC[01;37;44m"
-	local WHITE_RED="$ESC[01;37;41m"
-	local RED_BLACK="$ESC[01;31;40m"
+	local WHITE_BLACK="$ESC[00;37;40m"
+	local WHITE_BLUE="$ESC[00;37;44m"
+	local WHITE_RED="$ESC[00;37;41m"
+	local RED_BLACK="$ESC[00;31;40m"
 	export PS1="\n$WHITE_BLUE  \d \t  $WHITE_BLACK @ \w\n$F_GREY\u $ "
 }
 prompt
@@ -98,6 +98,7 @@ fi
 alias ll='ls -l'
 alias la='ls -lA'
 alias cd..='cd ..'
+alias cd...='cd ../..'
 #alias l='ls -CF'
 
 # Alias definitions.
