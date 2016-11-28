@@ -6,7 +6,9 @@ echo -e "| Initializing new RaspberryPi                                         
 echo -e "-------------------------------------------------------------------------------------"
 echo -e "\n- Make sure it is connected to the Internet... (probably use an ethernet cable at this point)\n\n"
 
-# ----- Refresh System --------------------------------------
+
+
+# ----- Update/Upgrade System --------------------------------------
 refreshSystem=1
 
 # ----- Install NANO configurations -------------------------
@@ -22,15 +24,7 @@ installBluetooth=1
 setupLocale=1
 
 # ----- Setup Wifi ------------------------------------------
-# NEED A NEW PROCESS FOR WIFI SETUP THAT IS EMBEDDED IN THE IMAGE
-setupWifi=0
-# cont="n"
-# while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
-#	echo -n "Enter your SSID: "; read ssid
-#	echo -n "Enter your WPA key: "; read wpa
-#	echo -n "Wifi information ok [y/n]? "; read -n 1 cont; echo
-# done
-# echo -e "\n"
+# NEED A NEW PROCESS FOR WIFI SETUP
 
 # ----- change pi password --------------------------------
 changePiPwd=1
@@ -39,61 +33,116 @@ while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
 	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
 	if [ "$piPassword" == "" ]; then cont="n"; fi
 done
-echo -e "\n\n"
 
 # ----- Setup New user ------------------------------------
-setupPrimaryUser=1
 cont="n"
-echo -e "\n\nLet's set up a new primary user..."
-while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
-	echo -n "Enter username: "; read user
-	echo -n "Enter full name: "; read userFullName
-	echo -n "Enter password: "; read password
-	echo -n "User information ok [y/n]? "; read -n 1 cont; echo
-	if [ "$user" == "" ]; then cont="n"; fi
-done
-echo -e "\n\n"
+setupPrimaryUser=0
+echo -n "Set up new user? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	setupPrimaryUser=1
+	echo -e "\n\nLet's set up a new primary user..."
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter username: "; read user
+		echo -n "Enter full name: "; read userFullName
+		echo -n "Enter password: "; read password
+		echo -n "User information ok [y/n]? "; read -n 1 cont; echo
+		if [ "$user" == "" ]; then cont="n"; fi
+	done
+fi
+# echo -e "\n"
 
 # ----- Set Up file system expansion ---------------------
-# NEED TO ENABLE IN THE FINAL SCRIPT BUT NOT DURING TESTING
-# cont="n"
+cont="n"
 expandFilesytem=0
-#echo -n "Expand file system to the whole card? ('y' for yes) "
-#read -n 1 q; echo
-#if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
-#	expandFilesystem=1
-#fi
+echo -n "Expand file system to the whole card? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	expandFilesystem=1
+fi
 # echo -e "\n"
 
 # ----- Setup hostname --------------------------------------
-setupHostname=1
 cont="n"
-while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
-	echo -n "Enter new hostname: "; read newHostname
-	echo -n "Hostname ok [y/n]? "; read -n 1 cont; echo
-done
-echo -e "\n\n"
+setupHostname=0
+echo -n "Set up new hostname? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	setupHostname=1
+	cont="n"
+	while [ "$cont" != "y" ] && [ "$cont" != "Y" ]; do
+		echo -n "Enter new hostname: "; read newHostname
+		echo -n "Hostname ok [y/n]? "; read -n 1 cont; echo
+	done
+fi
+# echo -e "\n"
 
 # ----- Install node.js --------------------------------------
-installNode=1
-echo -e "\n\n"
+cont="n"
+installNode=0
+compileNode=0
+echo -n "Install node.js? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installNode=1
+	cont="n"
+	echo -n "Do you want to install node.js from source (compile)? ('y' for yes) "
+	read -n 1 q; echo
+	if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+		compileNode=1
+	fi
+fi
+# echo -e "\n"
 
 
 # ----- Install FULL Oracle Java 8 --------------------------------------
+cont="n"
 installJava8=0
+echo -n "Install Oracle Java 8? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installJava8=1
+fi
+# echo -e "\n"
+
 
 
 # ----- Install Maven --------------------------------------
+cont="n"
 installMaven=0
+echo -n "Install Maven3? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installMaven=1
+fi
+# echo -e "\n"
 
 
 
 # ----- Install Cassandra 2.2 --------------------------------------
+cont="n"
 installCassandra=0
+echo -n "Install Apache Cassandra 2.2? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	installCassandra=1
+fi
+# echo -e "\n"
 
 
-# ----- Free Serial Port from console use --------------------------------------
-freeSerialPort=1
+# ----- Install Cassandra 2.2 --------------------------------------
+cont="n"
+freeSerialPort=0
+echo -n "Free serial port from console use? ('y' for yes) "
+read -n 1 q; echo
+if [ "$q" == "y" ] || [ "$q" == "Y" ]; then
+	freeSerialPort=1
+fi
+# echo -e "\n"
+
+
+
+
 
 
 
@@ -310,7 +359,7 @@ if [ "$setupPrimaryUser" == "1" ]; then
 
 		# Setting up raspi in new user's environment to enable next steps
 		cd /home/"$user"
-		sudo git clone https://github.com/fpapleux/raspi 				# clone git repo into new user home
+		sudo git clone https://github.com/fpapleux/raspi 		# clone git repo into new user home
 		sudo chown -R "$user":"$user" *									# change owner of repo files to new user
 
 		echo -e "\n\nUser environment setup complete\n\n"
@@ -399,11 +448,25 @@ if [ "$installNode" == "1" ]; then
 	echo -e " Installing node.js..."
 	echo -e "-------------------------------------------------------------------------------------"
 
-	curl -sLS https://apt.adafruit.com/add | sudo bash
-	sudo apt-get install node
+	if [ "$compileNode" == "1" ]; then
+		cd ~/temp
+		wget http://nodejs.org/dist/v0.12.2/node-v0.12.2.tar.gz
+		tar -xvf node-v0.12.2.tar.gz
+		cd node-v0.12.2
+		sudo ./configure
+		sudo make
+		sudo make install
+	else
+		curl -sLS https://apt.adafruit.com/add | sudo bash
+		sudo apt-get install node
+	fi
+	node --version
 
 	echo -e "\n\n Node JS install complete -- current version is $(node -v)"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
 fi
+
+
 
 
 
@@ -465,6 +528,27 @@ if [ "$installMaven" == "1" ]; then
 	echo -e " Installing Apache Maven 3..."
 	echo -e "-------------------------------------------------------------------------------------"
 	sudo apt-get -y install maven
+
+	echo -e "\n\n Apache Maven 3 install complete"
+	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
+fi
+
+
+
+#####################################################################################
+## Install Usergrid
+#####################################################################################
+### NOT COMPLETE ###
+
+if [ "$installUsergrid" == "1" ]; then
+	clear; echo -e "\n\n\n\n\n\n\n\n\n\n"
+	echo -e " Installing Apache Usergrid..."
+	echo -e "-------------------------------------------------------------------------------------"
+
+	cd ~
+	git clone http://github.com/apache/usergrid
+	cd usergrid/stack
+	
 
 	echo -e "\n\n Apache Maven 3 install complete"
 	# echo -n "-- Press any key to continue --"; read -n 1 cont; echo
