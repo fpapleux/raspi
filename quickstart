@@ -399,8 +399,10 @@ if [ "$installNode" == "1" ]; then
 	echo -e " Installing node.js..."
 	echo -e "-------------------------------------------------------------------------------------"
 
-	curl -sLS https://apt.adafruit.com/add | sudo bash
-	sudo apt-get install node
+	curl -sLS https://deb.nodesource.com/setup_4.x | sudo bash
+	sudo apt-get install -y build-essential python-rpi.gpio nodejs
+	sudo mkdir /usr/local/bin
+	sudo ln -s /usr/bin/nodejs /usr/local/bin/node
 
 	echo -e "\n\n Node JS install complete -- current version is $(node -v)"
 fi
